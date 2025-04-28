@@ -159,19 +159,40 @@ def course(course_id):
     creator_info = yaml.safe_load(course.creator_info)
     return render_template('course.html', course=course, modules=modules, creator_info=creator_info)
 
+
 @app.route('/section/<int:section_id>')
 def section(section_id):
     section = Section.query.get_or_404(section_id)
     content_md = base64.b64decode(section.content).decode()
-    html_content = markdown.markdown(content_md)
+    # Render Markdown with fenced_code and codehilite extensions
+    html_content = markdown.markdown(
+        content_md,
+        extensions=['fenced_code', 'codehilite'],
+        extension_configs={
+            'codehilite': {
+                'css_class': 'highlight',
+                'use_pygments': True
+            }
+        }
+    )
     return render_template('section.html', section=section, content=html_content)
 
 @app.route('/exercise/<int:exercise_id>')
 def exercise(exercise_id):
     exercise = Exercise.query.get_or_404(exercise_id)
     content_md = base64.b64decode(exercise.content).decode()
-    html_content = markdown.markdown(content_md)
+    html_content = markdown.markdown(
+        content_md,
+        extensions=['fenced_code', 'codehilite'],
+        extension_configs={
+            'codehilite': {
+                'css_class': 'highlight',
+                'use_pygments': True
+            }
+        }
+    )
     return render_template('exercise.html', exercise=exercise, content=html_content)
+
 
 @app.route('/complete/<item_type>/<int:item_id>', methods=['POST'])
 def complete(item_type, item_id):

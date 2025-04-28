@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>{{ section.title }}</title></head>
+<head>
+    <title>{{ section.title }}</title>
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <!-- Optional: Custom styles for code blocks -->
+    <style>
+        .highlight {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
 <body>
     <h1>{{ section.title }}</h1>
     {{ content|safe }}
@@ -8,5 +20,8 @@
         <button type="submit">Mark as Completed</button>
     </form>
     <a href="{{ url_for('course', course_id=section.module.course.id) }}">Back to Course</a>
+    <!-- Highlight.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </body>
 </html>
