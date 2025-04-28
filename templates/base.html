@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <!-- Custom styles -->
     <style>
-        /* Custom scrollbar for sidebar */
-        .sidebar::-webkit-scrollbar {
-            width: 8px;
+        /* Global scrollbar styles */
+        *::-webkit-scrollbar {
+            width: 8px;  /* Vertical scrollbar width */
+            height: 8px; /* Horizontal scrollbar height */
         }
-        .sidebar::-webkit-scrollbar-thumb {
-            background-color: #4b5563;
+        *::-webkit-scrollbar-thumb {
+            background-color: #9da9bb;
             border-radius: 4px;
         }
-        .sidebar::-webkit-scrollbar-track {
+        *::-webkit-scrollbar-track {
             background-color: #1f2937;
         }
         /* Smooth slide transition for sidebar and mobile menu */
@@ -58,6 +59,8 @@
             max-width: 100%;
             overflow-x: hidden;
         }
+
+        
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
