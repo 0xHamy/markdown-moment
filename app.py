@@ -163,8 +163,9 @@ def course(course_id):
 @app.route('/section/<int:section_id>')
 def section(section_id):
     section = Section.query.get_or_404(section_id)
+    course = section.module.course
+    modules = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
     content_md = base64.b64decode(section.content).decode()
-    # Render Markdown with fenced_code and codehilite extensions
     html_content = markdown.markdown(
         content_md,
         extensions=['fenced_code', 'codehilite'],
@@ -175,11 +176,13 @@ def section(section_id):
             }
         }
     )
-    return render_template('section.html', section=section, content=html_content)
+    return render_template('section.html', section=section, course=course, modules=modules, content=html_content)
 
 @app.route('/exercise/<int:exercise_id>')
 def exercise(exercise_id):
     exercise = Exercise.query.get_or_404(exercise_id)
+    course = exercise.module.course
+    modules = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
     content_md = base64.b64decode(exercise.content).decode()
     html_content = markdown.markdown(
         content_md,
@@ -191,7 +194,7 @@ def exercise(exercise_id):
             }
         }
     )
-    return render_template('exercise.html', exercise=exercise, content=html_content)
+    return render_template('exercise.html', exercise=exercise, course=course, modules=modules, content=html_content)
 
 
 @app.route('/complete/<item_type>/<int:item_id>', methods=['POST'])

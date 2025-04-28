@@ -8,57 +8,120 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Highlight.js CSS (Atom One Dark) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <!-- Custom styles for code blocks -->
+    <!-- Custom styles -->
     <style>
-        .highlight {
-            padding: 1rem;
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
+        /* Custom scrollbar for sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+            border-radius: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background-color: #1f2937;
+        }
+        /* Smooth slide transition for sidebar and mobile menu */
+        .sidebar, .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Hide sidebar off-screen when closed */
+        .sidebar-hidden {
+            transform: translateX(-100%);
+        }
+        /* Hide mobile menu off-screen to the right */
+        .mobile-menu-hidden {
+            transform: translateX(100%);
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-900">
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="{{ url_for('index') }}" class="text-2xl font-bold">MyCyber</a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="{{ url_for('index') }}" class="hover:bg-blue-700 px-3 py-2 rounded-md">Courses</a>
-                    <a href="{{ url_for('upload') }}" class="hover:bg-blue-700 px-3 py-2 rounded-md">Upload Course</a>
-                </div>
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+    <!-- Top Navbar -->
+    <nav class="fixed top-0 left-0 w-full bg-gray-800 shadow-lg z-50">
+        <div class="flex justify-between items-center px-4 py-3 max-w-7xl mx-auto">
+            <!-- Logo and Sidebar Toggle -->
+            <div class="flex items-center space-x-4">
+                <button class="md:hidden focus:outline-none sidebar-toggle">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <a href="{{ url_for('index') }}" class="text-xl font-bold text-white">MyCyber</a>
             </div>
+            <!-- Navigation Links (hidden on mobile) -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="{{ url_for('index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
+                <a href="{{ url_for('upload') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden focus:outline-none mobile-menu-button">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
     </nav>
+    <!-- Mobile Menu (slides from right) -->
+    <div id="mobile-menu" class="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-64px)] bg-gray-800 px-4 py-2 z-40 mobile-menu mobile-menu-hidden">
+        <a href="{{ url_for('index') }}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
+        <a href="{{ url_for('upload') }}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
+    </div>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="mb-4">
-                    {% for message in messages %}
-                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-2" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        {% block content %}
+    <!-- Main Content with Sidebar Placeholder -->
+    <div class="flex flex-1 mt-16">
+        {% block sidebar %}
         {% endblock %}
-    </main>
+        <!-- Main Content Area -->
+        <main class="flex-1 md:ml-64 p-6 bg-gray-900">
+            <div class="max-w-4xl mx-auto">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="mb-4">
+                            {% for message in messages %}
+                                <div class="bg-red-900 border-l-4 border-red-500 text-red-100 p-4 mb-2" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2025 MyCyber Courses. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Highlight.js JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <script>
+        $(document).ready(function() {
+            // Mobile Menu Toggle
+            $('.mobile-menu-button').click(function(e) {
+                e.stopPropagation();
+                $('#mobile-menu').toggleClass('mobile-menu-hidden');
+            });
+
+            // Sidebar Toggle
+            $('.sidebar-toggle').click(function(e) {
+                e.stopPropagation();
+                $('#sidebar').toggleClass('sidebar-hidden');
+            });
+
+            // Close menus on outside click
+            $(document).click(function(e) {
+                if (!$(e.target).closest('.mobile-menu-button, #mobile-menu').length) {
+                    $('#mobile-menu').addClass('mobile-menu-hidden');
+                }
+                if (!$(e.target).closest('.sidebar-toggle, #sidebar').length) {
+                    $('#sidebar').addClass('sidebar-hidden');
+                }
+            });
+
+            // Highlight.js
+            hljs.highlightAll();
+        });
+    </script>
 </body>
 </html>

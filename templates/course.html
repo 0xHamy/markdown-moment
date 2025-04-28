@@ -3,33 +3,33 @@
 {% block title %}{{ course.title }}{% endblock %}
 
 {% block content %}
-<div class="bg-white shadow-lg rounded-lg p-6">
+<div class="bg-gray-800 shadow-lg rounded-lg p-6">
     <!-- Course Header -->
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">{{ course.title }}</h1>
-        <span class="text-lg font-semibold text-blue-600">{{ course.points }} points</span>
+        <h1 class="text-3xl font-bold text-gray-100">{{ course.title }}</h1>
+        <span class="text-lg font-semibold text-blue-400">{{ course.points }} points</span>
     </div>
 
     <!-- Modules -->
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Modules</h2>
+    <h2 class="text-2xl font-semibold text-gray-100 mb-4">Modules</h2>
     <div class="space-y-6">
         {% for module in modules %}
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <div class="bg-gray-700 border border-gray-600 rounded-lg p-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xl font-semibold text-gray-900">{{ module.title }}</h3>
-                    <span class="text-md font-medium text-blue-500">{{ module.points }} points</span>
+                    <h3 class="text-xl font-semibold text-gray-100">{{ module.title }}</h3>
+                    <span class="text-md font-medium text-blue-400">{{ module.points }} points</span>
                 </div>
                 <ul class="space-y-2">
                     {% for section in module.sections %}
-                        <li class="flex items-center justify-between bg-white p-3 rounded-md shadow-sm hover:bg-gray-100">
-                            <a href="{{ url_for('section', section_id=section.id) }}" class="text-blue-600 hover:underline">{{ section.title }}</a>
-                            <span class="text-sm text-gray-600">{{ section.points }} points</span>
+                        <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
+                            <a href="{{ url_for('section', section_id=section.id) }}" class="text-blue-400 hover:underline">{{ section.title }}</a>
+                            <span class="text-sm text-gray-400">{{ section.points }} points</span>
                         </li>
                     {% endfor %}
                     {% if module.exercise %}
-                        <li class="flex items-center justify-between bg-white p-3 rounded-md shadow-sm hover:bg-gray-100">
-                            <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}" class="text-blue-600 hover:underline">Exercises</a>
-                            <span class="text-sm text-gray-600">{{ module.exercise.points }} points</span>
+                        <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
+                            <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}" class="text-blue-400 hover:underline">Exercises</a>
+                            <span class="text-sm text-gray-400">{{ module.exercise.points }} points</span>
                         </li>
                     {% endif %}
                 </ul>
@@ -38,12 +38,12 @@
     </div>
 
     <!-- Creators -->
-    <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">Creators</h2>
-    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <p class="text-gray-700"><strong>Authors:</strong> {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
-        <p class="text-gray-700"><strong>Editors:</strong> {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
-        <p class="text-gray-700"><strong>Contributors:</strong> {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
-        <p class="text-gray-700 mt-2">{{ creator_info.thanks }}</p>
+    <h2 class="text-2xl font-semibold text-gray-100 mt-8 mb-4">Creators</h2>
+    <div class="bg-gray-700 border border-gray-600 rounded-lg p-4">
+        <p class="text-gray-300"><strong>Authors:</strong> {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-300"><strong>Editors:</strong> {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-300"><strong>Contributors:</strong> {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-300 mt-2">{{ creator_info.thanks }}</p>
     </div>
 
     <!-- Back Button -->
