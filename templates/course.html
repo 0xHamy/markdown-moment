@@ -1,25 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head><title>{{ course.title }}</title></head>
-<body>
-    <h1>{{ course.title }} ({{ course.points }} points)</h1>
-    <h2>Modules</h2>
-    {% for module in modules %}
-        <h3>{{ module.title }} ({{ module.points }} points)</h3>
-        <ul>
-        {% for section in module.sections %}
-            <li><a href="{{ url_for('section', section_id=section.id) }}">{{ section.title }}</a> ({{ section.points }} points)</li>
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <!-- Course Header -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">{{ course.title }}</h1>
+        <span class="text-lg font-semibold text-blue-600">{{ course.points }} points</span>
+    </div>
+
+    <!-- Modules -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Modules</h2>
+    <div class="space-y-6">
+        {% for module in modules %}
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xl font-semibold text-gray-900">{{ module.title }}</h3>
+                    <span class="text-md font-medium text-blue-500">{{ module.points }} points</span>
+                </div>
+                <ul class="space-y-2">
+                    {% for section in module.sections %}
+                        <li class="flex items-center justify-between bg-white p-3 rounded-md shadow-sm hover:bg-gray-100">
+                            <a href="{{ url_for('section', section_id=section.id) }}" class="text-blue-600 hover:underline">{{ section.title }}</a>
+                            <span class="text-sm text-gray-600">{{ section.points }} points</span>
+                        </li>
+                    {% endfor %}
+                    {% if module.exercise %}
+                        <li class="flex items-center justify-between bg-white p-3 rounded-md shadow-sm hover:bg-gray-100">
+                            <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}" class="text-blue-600 hover:underline">Exercises</a>
+                            <span class="text-sm text-gray-600">{{ module.exercise.points }} points</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         {% endfor %}
-        {% if module.exercise %}
-            <li><a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}">Exercises</a> ({{ module.exercise.points }} points)</li>
-        {% endif %}
-        </ul>
-    {% endfor %}
-    <h2>Creators</h2>
-    <p>Authors: {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
-    <p>Editors: {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
-    <p>Contributors: {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
-    <p>{{ creator_info.thanks }}</p>
-    <a href="{{ url_for('index') }}">Back to Courses</a>
-</body>
-</html>
+    </div>
+
+    <!-- Creators -->
+    <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">Creators</h2>
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+        <p class="text-gray-700"><strong>Authors:</strong> {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-700"><strong>Editors:</strong> {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-700"><strong>Contributors:</strong> {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-700 mt-2">{{ creator_info.thanks }}</p>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-6">
+        <a href="{{ url_for('index') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Back to Courses</a>
+    </div>
+</div>
+{% endblock %}

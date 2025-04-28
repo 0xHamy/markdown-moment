@@ -1,12 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head><title>Exercise</title></head>
-<body>
-    <h1>Exercise</h1>
-    {{ content|safe }}
-    <form method="post" action="{{ url_for('complete', item_type='exercise', item_id=exercise.id) }}">
-        <button type="submit">Mark as Completed</button>
-    </form>
-    <a href="{{ url_for('course', course_id=exercise.module.course.id) }}">Back to Course</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Exercise{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <!-- Exercise Header -->
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Exercise</h1>
+
+    <!-- Exercise Content -->
+    <div class="prose max-w-none text-gray-700">
+        {{ content|safe }}
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex space-x-4">
+        <form method="post" action="{{ url_for('complete', item_type='exercise', item_id=exercise.id) }}">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Mark as Completed
+            </button>
+        </form>
+        <a href="{{ url_for('course', course_id=exercise.module.course.id) }}" class="inline-flex items-center px-4 py-2 text-blue-600 hover:underline">
+            Back to Course
+        </a>
+    </div>
+</div>
+{% endblock %}

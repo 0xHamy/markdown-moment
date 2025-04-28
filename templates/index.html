@@ -1,13 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head><title>Courses</title></head>
-<body>
-    <h1>Available Courses</h1>
-    <ul>
-    {% for course in courses %}
-        <li><a href="{{ url_for('course', course_id=course.id) }}">{{ course.title }}</a></li>
-    {% endfor %}
+{% extends "base.html" %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">Available Courses</h1>
+        <a href="{{ url_for('upload') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+            Upload New Course
+        </a>
+    </div>
+
+    <!-- Course List -->
+    <ul class="space-y-3">
+        {% for course in courses %}
+            <li class="bg-gray-50 p-4 rounded-md shadow-sm hover:bg-gray-100 transition">
+                <a href="{{ url_for('course', course_id=course.id) }}" class="text-blue-600 text-lg font-medium hover:underline">
+                    {{ course.title }}
+                </a>
+            </li>
+        {% endfor %}
     </ul>
-    <a href="{{ url_for('upload') }}">Upload New Course</a>
-</body>
-</html>
+</div>
+{% endblock %}

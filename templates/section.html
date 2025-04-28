@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ section.title }}</title>
-    <!-- Highlight.js Atom One Dark theme -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <style>
-        .highlight {
-            padding: 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <h1>{{ section.title }}</h1>
-    {{ content|safe }}
-    <form method="post" action="{{ url_for('complete', item_type='section', item_id=section.id) }}">
-        <button type="submit">Mark as Completed</button>
-    </form>
-    <a href="{{ url_for('course', course_id=section.module.course.id) }}">Back to Course</a>
-    <!-- Highlight.js JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <!-- Section Header -->
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ section.title }}</h1>
+
+    <!-- Section Content -->
+    <div class="prose max-w-none text-gray-700">
+        {{ content|safe }}
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex space-x-4">
+        <form method="post" action="{{ url_for('complete', item_type='section', item_id=section.id) }}">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Mark as Completed
+            </button>
+        </form>
+        <a href="{{ url_for('course', course_id=section.module.course.id) }}" class="inline-flex items-center px-4 py-2 text-blue-600 hover:underline">
+            Back to Course
+        </a>
+    </div>
+</div>
+{% endblock %}
