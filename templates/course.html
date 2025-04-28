@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ course.title }}</title></head>
+<body>
+    <h1>{{ course.title }} ({{ course.points }} points)</h1>
+    <h2>Modules</h2>
+    {% for module in modules %}
+        <h3>{{ module.title }} ({{ module.points }} points)</h3>
+        <ul>
+        {% for section in module.sections %}
+            <li><a href="{{ url_for('section', section_id=section.id) }}">{{ section.title }}</a> ({{ section.points }} points)</li>
+        {% endfor %}
+        {% if module.exercise %}
+            <li><a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}">Exercises</a> ({{ module.exercise.points }} points)</li>
+        {% endif %}
+        </ul>
+    {% endfor %}
+    <h2>Creators</h2>
+    <p>Authors: {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
+    <p>Editors: {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
+    <p>Contributors: {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
+    <p>{{ creator_info.thanks }}</p>
+    <a href="{{ url_for('index') }}">Back to Courses</a>
+</body>
+</html>

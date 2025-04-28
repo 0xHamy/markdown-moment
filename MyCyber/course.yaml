@@ -1,0 +1,33 @@
+course:
+  id: "mycyber"
+  title: "MyCyber Course"
+  points: 100
+  modules:
+    - id: "module1"
+      title: "Module 1: Basics"
+      points: 20
+      sections:
+        - id: "section1"
+          title: "Section 1: Introduction"
+          file: "Module1/section1.md"
+          points: 5
+        - id: "section2"
+          title: "Section 2: Concepts"
+          file: "Module1/section2.md"
+          points: 5
+      exercise:
+        file: "Module1/exercise.md"
+        points: 10
+    - id: "module2"
+      title: "Module 2: Advanced Topics"
+      points: 30
+      sections:
+        - id: "section1"
+          title: "Section 1: Deep Dive"
+          file: "Module2/section1.md"
+          points: 15
+        - id: "section2"
+          title: "Section 2: Applications"
+          file: "Module2/section2.md"
+          points: 15
+          

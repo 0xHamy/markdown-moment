@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ section.title }}</title></head>
+<body>
+    <h1>{{ section.title }}</h1>
+    {{ content|safe }}
+    <form method="post" action="{{ url_for('complete', item_type='section', item_id=section.id) }}">
+        <button type="submit">Mark as Completed</button>
+    </form>
+    <a href="{{ url_for('course', course_id=section.module.course.id) }}">Back to Course</a>
+</body>
+</html>

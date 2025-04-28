@@ -1,0 +1,18 @@
+course:
+  id: "anothercourse"
+  title: "Another Cyber Course"
+  points: 50
+  modules:
+    - id: "module1"
+      title: "Module 1: Foundations"
+      points: 50
+      sections:
+        - id: "section1"
+          title: "Section 1: Basics"
+          file: "Module1/section1.md"
+          points: 25
+        - id: "section2"
+          title: "Section 2: Techniques"
+          file: "Module1/section2.md"
+          points: 25
+          

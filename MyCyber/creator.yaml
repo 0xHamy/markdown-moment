@@ -1,0 +1,10 @@
+authors:
+  - name: "Author One"
+    affiliation: "University A"
+editors:
+  - name: "Editor One"
+    affiliation: "Company B"
+contributors:
+  - name: "Contributor One"
+    affiliation: "Organization C"
+thanks: "Thanks to all who helped."
