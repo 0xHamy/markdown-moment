@@ -12,6 +12,7 @@ Create academy.cyberm.ca as an open-source LMS tool.
 7. Add horizontal containers to show all courses, their info and some contents of creator.yaml
 8. Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner 
 9. When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge 
+10. The container moves to the left while viewing a section, fix that 
 
 
 
