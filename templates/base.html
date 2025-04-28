@@ -33,19 +33,44 @@
         .mobile-menu-hidden {
             transform: translateX(100%);
         }
+        /* Ensure main container doesn’t overflow */
+        main {
+            overflow-x: hidden;
+        }
+        /* Responsive prose content */
+        .prose img, .prose pre, .prose table {
+            max-width: 100%;
+            height: auto;
+            overflow-x: auto;
+        }
+        .prose pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .prose table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .prose {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
     <!-- Top Navbar -->
     <nav class="fixed top-0 left-0 w-full bg-gray-800 shadow-lg z-50">
         <div class="flex justify-between items-center px-4 py-3 max-w-7xl mx-auto">
-            <!-- Logo and Sidebar Toggle -->
+            <!-- Logo and Sidebar Toggle (only if has_sidebar) -->
             <div class="flex items-center space-x-4">
+                {% if has_sidebar %}
                 <button class="md:hidden focus:outline-none sidebar-toggle">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
+                {% endif %}
                 <a href="{{ url_for('index') }}" class="text-xl font-bold text-white">MyCyber</a>
             </div>
             <!-- Navigation Links (hidden on mobile) -->
@@ -68,12 +93,13 @@
     </div>
 
     <!-- Main Content with Sidebar Placeholder -->
-    <div class="flex flex-1 mt-16">
-        {% block sidebar %}
-        {% endblock %}
+    <div class="flex flex-1 mt-16 max-w-7xl mx-auto w-full">
+        {% if has_sidebar %}
+        {% block sidebar %}{% endblock %}
+        {% endif %}
         <!-- Main Content Area -->
-        <main class="flex-1 md:ml-64 p-6 bg-gray-900">
-            <div class="max-w-4xl mx-auto">
+        <main class="flex-1 p-6 bg-gray-900 transition-all duration-300 w-full {% if has_sidebar %}md:ml-64{% else %}max-w-4xl mx-auto{% endif %}">
+            <div class="w-full">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <div class="mb-4">
@@ -85,8 +111,7 @@
                         </div>
                     {% endif %}
                 {% endwith %}
-                {% block content %}
-                {% endblock %}
+                {% block content %}{% endblock %}
             </div>
         </main>
     </div>
@@ -103,21 +128,42 @@
                 $('#mobile-menu').toggleClass('mobile-menu-hidden');
             });
 
-            // Sidebar Toggle
+            // Sidebar Toggle (only if has_sidebar)
+            {% if has_sidebar %}
             $('.sidebar-toggle').click(function(e) {
                 e.stopPropagation();
                 $('#sidebar').toggleClass('sidebar-hidden');
+                $('main').toggleClass('md:ml-64');
             });
 
-            // Close menus on outside click
+            // Close sidebar on outside click
             $(document).click(function(e) {
-                if (!$(e.target).closest('.mobile-menu-button, #mobile-menu').length) {
-                    $('#mobile-menu').addClass('mobile-menu-hidden');
-                }
                 if (!$(e.target).closest('.sidebar-toggle, #sidebar').length) {
                     $('#sidebar').addClass('sidebar-hidden');
+                    $('main').removeClass('md:ml-64');
                 }
             });
+
+            // Ensure sidebar is visible by default on desktop
+            if ($(window).width() >= 768) {
+                $('#sidebar').removeClass('sidebar-hidden');
+                $('main').addClass('md:ml-64');
+            } else {
+                $('#sidebar').addClass('sidebar-hidden');
+                $('main').removeClass('md:ml-64');
+            }
+
+            // Handle window resize
+            $(window).resize(function() {
+                if ($(window).width() >= 768) {
+                    $('#sidebar').removeClass('sidebar-hidden');
+                    $('main').addClass('md:ml-64');
+                } else {
+                    $('#sidebar').addClass('sidebar-hidden');
+                    $('main').removeClass('md:ml-64');
+                }
+            });
+            {% endif %}
 
             // Highlight.js
             hljs.highlightAll();

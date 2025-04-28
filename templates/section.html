@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% set has_sidebar = True %}
 
 {% block title %}{{ section.title }}{% endblock %}
 
 {% block sidebar %}
 <!-- Left Sidebar -->
-<aside id="sidebar" class="fixed top-16 left-0 w-64 h-[calc(100vh-64px)] bg-gray-800 overflow-y-auto sidebar md:translate-x-0 sidebar-hidden">
+<aside id="sidebar" class="fixed top-16 left-0 w-64 h-[calc(100vh-64px)] bg-gray-800 overflow-y-auto sidebar md:translate-x-0">
     <div class="p-4">
         <h2 class="text-lg font-semibold text-gray-100 mb-4">{{ course.title }}</h2>
         {% for module in modules %}
@@ -40,7 +41,7 @@
     <h1 class="text-3xl font-bold text-gray-100 mb-4">{{ section.title }}</h1>
 
     <!-- Section Content -->
-    <div class="prose prose-invert max-w-none text-gray-300">
+    <div class="prose prose-invert max-w-none text-gray-300 overflow-x-hidden">
         {{ content|safe }}
     </div>
 
