@@ -38,14 +38,16 @@
             overflow-x: hidden;
         }
         /* Responsive prose content */
-        .prose img, .prose pre, .prose table {
+        .prose img, .prose table {
             max-width: 100%;
             height: auto;
             overflow-x: auto;
         }
         .prose pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            white-space: pre;
+            overflow-x: auto;
+            padding: 1rem;
+            border-radius: 0.375rem;
         }
         .prose table {
             display: block;
