@@ -11,23 +11,23 @@ import markdown
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///course.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'your-secret-key'  # For flash messages
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['SECRET_KEY'] = 'your-secret-key'
+app.config['UPLOAD_FOLDER'] = 'Uploads'
 db = SQLAlchemy(app)
 
 # Database Models
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    yaml_id = db.Column(db.String(50), unique=True, nullable=False)  # e.g., "mycyber"
+    yaml_id = db.Column(db.String(50), unique=True, nullable=False)
     title = db.Column(db.String(200), nullable=False)
     points = db.Column(db.Integer, default=0)
-    creator_info = db.Column(db.Text)  # Store creator.yaml as YAML string
+    creator_info = db.Column(db.Text)
     modules = db.relationship('Module', backref='course', lazy=True)
 
 class Module(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
-    yaml_id = db.Column(db.String(50), nullable=False)  # e.g., "module1"
+    yaml_id = db.Column(db.String(50), nullable=False)
     title = db.Column(db.String(200), nullable=False)
     points = db.Column(db.Integer, default=0)
     order = db.Column(db.Integer, default=0)
@@ -37,34 +37,35 @@ class Module(db.Model):
 class Section(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     module_id = db.Column(db.Integer, db.ForeignKey('module.id'), nullable=False)
-    yaml_id = db.Column(db.String(50), nullable=False)  # e.g., "section1"
+    yaml_id = db.Column(db.String(50), nullable=False)
     title = db.Column(db.String(200), nullable=False)
-    content = db.Column(db.Text, nullable=False)  # Base64-encoded Markdown
+    content = db.Column(db.Text, nullable=False)
     points = db.Column(db.Integer, default=0)
     order = db.Column(db.Integer, default=0)
 
 class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     module_id = db.Column(db.Integer, db.ForeignKey('module.id'), nullable=False)
-    content = db.Column(db.Text, nullable=False)  # Base64-encoded Markdown
+    content = db.Column(db.Text, nullable=False)
     points = db.Column(db.Integer, default=0)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
+    points = db.Column(db.Integer, default=0)
 
 class Completion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    item_type = db.Column(db.String(20), nullable=False)  # 'section' or 'exercise'
+    item_type = db.Column(db.String(20), nullable=False)  # 'section', 'exercise', 'module', 'course'
     item_id = db.Column(db.Integer, nullable=False)
 
-# Upload Course Function
+# Upload Course Function (unchanged)
 def upload_course(course_yaml_path, creator_yaml_path, course_dir):
     with open(course_yaml_path, 'r') as f:
         course_data = yaml.safe_load(f)
     with open(creator_yaml_path, 'r') as f:
-        creator_data = yaml.dump(yaml.safe_load(f))  # Store as YAML string
+        creator_data = yaml.dump(yaml.safe_load(f))
 
     course_yaml_id = course_data['course']['id']
     if Course.query.filter_by(yaml_id=course_yaml_id).first():
@@ -79,7 +80,6 @@ def upload_course(course_yaml_path, creator_yaml_path, course_dir):
     db.session.add(course)
     db.session.commit()
 
-    # Copy media to course-specific directory
     media_src = os.path.join(course_dir, 'media')
     media_dest = os.path.join('static', 'media', course_yaml_id)
     if os.path.exists(media_src):
@@ -125,7 +125,7 @@ def upload_course(course_yaml_path, creator_yaml_path, course_dir):
 
     db.session.commit()
 
-# Process Zipped Course
+# Process Zipped Course (unchanged)
 def process_zip(file):
     with tempfile.TemporaryDirectory() as temp_dir:
         zip_path = os.path.join(temp_dir, 'course.zip')
@@ -133,7 +133,6 @@ def process_zip(file):
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(temp_dir)
         
-        # Assume course is in a single top-level folder
         course_dir = os.path.join(temp_dir, os.listdir(temp_dir)[0])
         course_yaml = os.path.join(course_dir, 'course.yaml')
         creator_yaml = os.path.join(course_dir, 'creator.yaml')
@@ -157,8 +156,36 @@ def course(course_id):
     course = Course.query.get_or_404(course_id)
     modules = Module.query.filter_by(course_id=course_id).order_by(Module.order).all()
     creator_info = yaml.safe_load(course.creator_info)
-    return render_template('course.html', course=course, modules=modules, creator_info=creator_info)
+    user = User.query.filter_by(username='test_user').first()
 
+    # Check if all sections and exercises are completed
+    can_complete_course = False
+    completed_items = set()
+    if user:
+        completed_items = set(
+            (c.item_type, c.item_id) for c in Completion.query.filter_by(user_id=user.id).all()
+        )
+        all_items_completed = True
+        for module in modules:
+            for section in module.sections:
+                if ('section', section.id) not in completed_items:
+                    all_items_completed = False
+                    break
+            if module.exercise and ('exercise', module.exercise.id) not in completed_items:
+                all_items_completed = False
+            if not all_items_completed:
+                break
+        course_completed = ('course', course.id) in completed_items
+        can_complete_course = all_items_completed and not course_completed
+
+    return render_template(
+        'course.html',
+        course=course,
+        modules=modules,
+        creator_info=creator_info,
+        can_complete_course=can_complete_course,
+        completed_items=completed_items
+    )
 
 @app.route('/section/<int:section_id>')
 def section(section_id):
@@ -176,7 +203,7 @@ def section(section_id):
             }
         }
     )
-    return render_template('section.html', section=section, course=course, modules=modules, content=html_content)
+    return render_template('section.html', section=section, course=course, modules=modules, content=html_content, has_sidebar=True)
 
 @app.route('/exercise/<int:exercise_id>')
 def exercise(exercise_id):
@@ -194,21 +221,62 @@ def exercise(exercise_id):
             }
         }
     )
-    return render_template('exercise.html', exercise=exercise, course=course, modules=modules, content=html_content)
-
+    return render_template('exercise.html', exercise=exercise, course=course, modules=modules, content=html_content, has_sidebar=True)
 
 @app.route('/complete/<item_type>/<int:item_id>', methods=['POST'])
 def complete(item_type, item_id):
-    user = User.query.first()  # Simplified: assume first user
+    user = User.query.filter_by(username='test_user').first()
     if not user:
-        user = User(username="test_user")
+        user = User(username='test_user', points=0)
         db.session.add(user)
         db.session.commit()
+
     if item_type in ['section', 'exercise']:
         completion = Completion(user_id=user.id, item_type=item_type, item_id=item_id)
         db.session.add(completion)
+
+        if item_type == 'section':
+            section = Section.query.get(item_id)
+            user.points += section.points
+        elif item_type == 'exercise':
+            exercise = Exercise.query.get(item_id)
+            user.points += exercise.points
+
+        if item_type in ['section', 'exercise']:
+            module = None
+            if item_type == 'section':
+                section = Section.query.get(item_id)
+                module = section.module
+            else:
+                exercise = Exercise.query.get(item_id)
+                module = exercise.module
+
+            module_sections = module.sections
+            module_exercise = module.exercise
+            completed_items = set(
+                (c.item_type, c.item_id) for c in Completion.query.filter_by(user_id=user.id).all()
+            )
+
+            module_completed = all(
+                ('section', section.id) in completed_items for section in module_sections
+            ) and (
+                not module_exercise or ('exercise', module_exercise.id) in completed_items
+            )
+
+            if module_completed and ('module', module.id) not in completed_items:
+                completion = Completion(user_id=user.id, item_type='module', item_id=module.id)
+                db.session.add(completion)
+                user.points += module.points
+
         db.session.commit()
-    return redirect(url_for('course', course_id=1))  # Adjust as needed
+    elif item_type == 'course':
+        completion = Completion(user_id=user.id, item_type='course', item_id=item_id)
+        db.session.add(completion)
+        course = Course.query.get(item_id)
+        user.points += course.points
+        db.session.commit()
+
+    return redirect(url_for('course', course_id=1))
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -233,12 +301,23 @@ def upload():
             return redirect(request.url)
     return render_template('upload.html')
 
+@app.route('/profile')
+def profile():
+    user = User.query.filter_by(username='test_user').first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('index'))
+    return render_template('profile.html', username=user.username, total_score=user.points)
+
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     with app.app_context():
-        db.drop_all()  # Reset for example
+        db.drop_all()
         db.create_all()
-        # Upload initial course for testing
         upload_course('MyCyber/course.yaml', 'MyCyber/creator.yaml', 'MyCyber')
+        # Create test_user for testing
+        if not User.query.filter_by(username='test_user').first():
+            test_user = User(username='test_user', points=0)
+            db.session.add(test_user)
+            db.session.commit()
     app.run(debug=True)
-

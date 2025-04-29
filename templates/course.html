@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set has_sidebar = False %}
 
 {% block title %}{{ course.title }}{% endblock %}
 
@@ -10,6 +11,17 @@
         <span class="text-lg font-semibold text-blue-400">{{ course.points }} points</span>
     </div>
 
+    <!-- Mark Course as Completed Button -->
+    {% if can_complete_course %}
+    <div class="mb-6">
+        <form method="post" action="{{ url_for('complete', item_type='course', item_id=course.id) }}">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Mark Course as Completed
+            </button>
+        </form>
+    </div>
+    {% endif %}
+
     <!-- Modules -->
     <h2 class="text-2xl font-semibold text-gray-100 mb-4">Modules</h2>
     <div class="space-y-6">
@@ -17,19 +29,31 @@
             <div class="bg-gray-700 border border-gray-600 rounded-lg p-4">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xl font-semibold text-gray-100">{{ module.title }}</h3>
-                    <span class="text-md font-medium text-blue-400">{{ module.points }} points</span>
+                    <span class="text-md font-medium text-blue-400">{{ module.points }} points
+                        {% if ('module', module.id) in completed_items %}
+                            <span class="text-green-400"> (Completed)</span>
+                        {% endif %}
+                    </span>
                 </div>
                 <ul class="space-y-2">
                     {% for section in module.sections %}
                         <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
                             <a href="{{ url_for('section', section_id=section.id) }}" class="text-blue-400 hover:underline">{{ section.title }}</a>
-                            <span class="text-sm text-gray-400">{{ section.points }} points</span>
+                            <span class="text-sm text-gray-400">{{ section.points }} points
+                                {% if ('section', section.id) in completed_items %}
+                                    <span class="text-green-400"> (Completed)</span>
+                                {% endif %}
+                            </span>
                         </li>
                     {% endfor %}
                     {% if module.exercise %}
                         <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
                             <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}" class="text-blue-400 hover:underline">Exercises</a>
-                            <span class="text-sm text-gray-400">{{ module.exercise.points }} points</span>
+                            <span class="text-sm text-gray-400">{{ module.exercise.points }} points
+                                {% if ('exercise', module.exercise.id) in completed_items %}
+                                    <span class="text-green-400"> (Completed)</span>
+                                {% endif %}
+                            </span>
                         </li>
                     {% endif %}
                 </ul>
