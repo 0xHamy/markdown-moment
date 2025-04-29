@@ -14,4 +14,7 @@
 - [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
 - [ ] The container moves to the left while viewing a section, fix that
+- [ ] Restrict course uploading to a specific user (e.g. admin)
+- [ ] Before login should only sign up / sign in forms 
+
 
