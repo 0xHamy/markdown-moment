@@ -2,6 +2,7 @@
 
 
 # Todo
+- [ ] Convert the whole code to FastAPI & use the PostgreSQL database
 - [ ] Create proper display for course.yaml
 - [ ] Create horizontal cards for showing courses 
 - [ ] Create dashboard to show progress and list of ongoing courses and the ones you have in-progress, your points and the last time you did a challenge 
