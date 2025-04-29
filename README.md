@@ -10,11 +10,12 @@
 - [ ] Create account deletion page
 - [ ] Add appropriate messages for when you finish courses & stuff
 - [ ] Add a badges sections for the badges you earn when you complete a course 
-- [ ] Add horizontal containers to show all courses, their info and some contents of creator.yaml
+- [ ] Add horizontal containers to show all courses, their info and some contents of creator.yaml; course image, name, description, sections, exercises, modules; read more 
 - [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
 - [ ] The container moves to the left while viewing a section, fix that
 - [ ] Restrict course uploading to a specific user (e.g. admin)
 - [ ] Before login should only sign up / sign in forms 
+- [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
 
 
