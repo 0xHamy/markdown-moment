@@ -81,6 +81,8 @@ Courses will contain all courses with filters and search available to see:
 - Course delete option is available too but it courses can't be deleted UNLESS they are retired
 	- When a course is retired, it becomes available for deletion
 	- When a course is retired, it becomes hidden 
+- Notification system
+	- Alert admins whenever a change is made via SMS 
 
 
 the updates from github are all performed manually and when you create an update, a new copy of that course is made, this temporary copy could be compared with the previous course and also viewed in preview to ensure everything works. 
