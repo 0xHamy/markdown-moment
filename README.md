@@ -21,6 +21,7 @@
 - [ ] Restrict course uploading to a specific user (e.g. admin)
 - [ ] Before login should only sign up / sign in forms 
 - [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
+- [ ] When you open a section and select code of that section with mouse, the container enlarges, fix this
 
 
 The `creator.yaml` will be used to specify all of the following:
