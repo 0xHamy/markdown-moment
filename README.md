@@ -2,13 +2,27 @@
 
 > ⚠️ Attention<br>This repository is under maintenance.
 
+## Tech-stack
+**Frontend:**
+- TailwindCSS 4.x
+- HTML5
+**Backend:**
+- FastAPI
+**Database:**
+- PostgreSQL
+- A logging system for logs
+**Deployment:**
+- Docker
+
+---
+
 # Todo
 - [ ] Convert the whole code to FastAPI & use the PostgreSQL database
 - [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
 - [ ] Create proper display for course.yaml
 - [ ] Create horizontal cards for showing courses 
 - [ ] Create dashboard to show progress and list of ongoing courses and the ones you have in-progress, your points and the last time you did a challenge 
-- [ ] Create login, register, logout with usernames alone 
+- [ ] Create login, register, logout with usernames alone (for testing); add strict cookies & auth token that expires quickly after use 
 - [ ] Add settings to set default language so that all material is displayed in that language 
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Create account deletion page
@@ -83,6 +97,9 @@ Courses will contain all courses with filters and search available to see:
 	- When a course is retired, it becomes hidden 
 - Notification system
 	- Alert admins whenever a change is made via SMS 
+- Security 
+	- Implement strict one type use cookies and auth token for all actions 
+	- Perform force logout after 5 minute of inactivity 
 
 
 the updates from github are all performed manually and when you create an update, a new copy of that course is made, this temporary copy could be compared with the previous course and also viewed in preview to ensure everything works. 
