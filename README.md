@@ -48,20 +48,19 @@ The `course_intro.yaml` will be used to specify all of the following:
 1. Course title
 3. Course badge 
 4. Course version 
-5. Language (This will be used for filtering)
+5. Language (This will be used for filtering between languages)
 6. Course settings
 	1. Duration (in hours, because cyber moves fast, we don't have time)
 	2. Difficulty 
 	3. Type (e.g. Crash, foundations, masterclass)
 	4. Level (e.g. 1)
-7. Topics discussed in a course (e.g. LLMs, Python, JS)
+7. Tags
 
 
 The `course_info.md` will have markdown page that would give an intro to the course, it will include all of the following:
 - Everything from creator.yaml 
 - Description
 - Prerequisite
-- Course badge 
 - Languages this course is available in
 - Course auhtor(s), editor(s), technical reviewers, language reviewer  
 - Author(s), Co-Author(s), Editors(s), Technical reviewer(s)

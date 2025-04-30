@@ -7,7 +7,7 @@ difficulty: "Intermediate"
 language: "English"
 type: "Crash Course"
 level: "1"
-tags:
+topics:
   - "Threat Intelligence"
   - "Digital Forensics"
   - "OSINT"
