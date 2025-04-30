@@ -69,3 +69,20 @@ Courses will contain all courses with filters and search available to see:
 - search by language (English or French)
 
 
+### Backend for uploading courses
+- Create backend for admin to login & upload courses; all dangerous actions will require OTP & multiple confirmations 
+- Create functionality to upload courses as zip or import them via a Github link; for private repos allow using access tokens; we must be able to select a specific commit or branch too 
+- Create a beautiful table to show all uploaded courses, their current commit number, last update, view 
+- You can't just update a course by clicking update, selecting a new zip and viola 
+    - You have to first upload a course, it will be hidden and saved as "under_review" course
+    - Later, when you want to update, you select from the list of already uploaded courses to replace any old version with the new version 
+    - These steps are mandatory to ensure that these actions are taken seriously 
+- To maintain accuracy, you have to upload specific language versions for every course 
+
+
+the updates from github are all performed manually and when you create an update, a new copy of that course is made, this temporary copy could be compared with the previous course and also viewed in preview to ensure everything works. 
+
+Updates are not automated because we tend to review courses carefully before shipping them.
+
+
+
