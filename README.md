@@ -18,17 +18,23 @@
 
 # Todo
 - [ ] Convert the whole code to FastAPI & use the PostgreSQL database
-- [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
-- [ ] Create proper display for course.yaml
-- [ ] Create horizontal cards for showing courses 
-- [ ] Create dashboard to show progress and list of ongoing courses and the ones you have in-progress, your points and the last time you did a challenge 
-- [ ] Create login, register, logout with usernames alone (for testing); add strict cookies & auth token that expires quickly after use 
-- [ ] Add settings to set default language so that all material is displayed in that language 
-- [ ] Create visual profiles, progress bar for all courses, progress and badges for user
+- [ ] Create course_info.md (all of this content is saved as base64 and displayed)
+- [ ] Create course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
+- [ ] Create course_structure.yaml for structure of modules, sections & exercises
+- [ ] Create login, register, logout with usernames alone (for testing)
+- [ ] Create admin user
+	- [ ] Show a different area for admins when they login, for example course upload is only visible to admins 
+- [ ] add strict cookies & auth token that expires quickly after use 
+
+---
+
+- [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
+- [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
 - [ ] Create account deletion page
 - [ ] Add appropriate messages for when you finish courses & stuff
+- [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Add a badges sections for the badges you earn when you complete a course 
-- [ ] Add horizontal containers to show all courses, their info and some contents of creator.yaml; course image, name, description, sections, exercises, modules; read more 
+- [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
 - [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
 - [ ] The container moves to the left while viewing a section, fix that
@@ -40,24 +46,30 @@
 
 The `creator.yaml` will be used to specify all of the following:
 1. Course title
-2. Course image 
 3. Course badge 
 4. Course version 
 5. Languages (e.g. English & French)
-6. Author(s), Co-Author(s), Editors(s), Technical reviewer(s)
-	1. Name, short bio, job role, country, contacts 
-7. Course settings
+6. Course settings
 	1. Duration (in hours, because cyber moves fast, we don't have time)
 	2. Difficulty 
 	3. Type (e.g. Crash, foundations, masterclass)
 	4. Level (e.g. 1)
-8. Prerequisite 
-	1. A list of things
-9. Topics discussed in a course (e.g. LLMs, Python, JS)
-10. Course reviews by other experts 
+7. Topics discussed in a course (e.g. LLMs, Python, JS)
 
 
-The `course.yaml` will contain structure for modules, sections, exercises & points. 
+The `course_info.md` will have markdown page that would give an intro to the course, it will include all of the following:
+- Everything from creator.yaml 
+- Description
+- Prerequisite
+- Course badge 
+- Languages this course is available in
+- Course auhtor(s), editor(s), technical reviewers, language reviewer  
+- Author(s), Co-Author(s), Editors(s), Technical reviewer(s)
+	- this includes name, a short bio, and a primary contact (e.g. LinkedIn)
+- Course reviews
+
+
+The `course_structure.yaml` will contain structure for modules, sections, exercises & points. 
 1. Course structure 
 	1. Modules & points for every module
 	2. Sections & points for every section
