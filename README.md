@@ -51,3 +51,21 @@ The `course.yaml` will contain structure for modules, sections, exercises & poin
 	4. The structure is going to be like a custom table of contents with links to the markdown pages & media 
 
 
+Before login, the subdomain will have a top nav with these items:
+- Preview courses; shows all courses, their modules, sections but not content 
+- Login page
+- Register page
+
+
+The `academy.cyberm.ca` **AFTER LOGIN** will have a hidden navbar on top with these items:
+- Username; opens settings; language change 
+- Courses; opens all courses 
+- Progress; opens all in-progress and finished courses with filters 
+- Dim switch (far left side)
+
+Courses will contain all courses with filters and search available to see:
+- crash courses, foundations or masterclass 
+- search by topic (one or multiple can be selected)
+- search by language (English or French)
+
+
