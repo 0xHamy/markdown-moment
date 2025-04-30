@@ -3,10 +3,12 @@
 
 # Todo
 - [ ] Convert the whole code to FastAPI & use the PostgreSQL database
+- [ ] Convert the entire infra to use 
 - [ ] Create proper display for course.yaml
 - [ ] Create horizontal cards for showing courses 
 - [ ] Create dashboard to show progress and list of ongoing courses and the ones you have in-progress, your points and the last time you did a challenge 
 - [ ] Create login, register, logout with usernames alone 
+- [ ] Add settings to set default language so that all material is displayed in that language 
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Create account deletion page
 - [ ] Add appropriate messages for when you finish courses & stuff
