@@ -3,16 +3,16 @@
 > ⚠️ Attention<br>This repository is under maintenance.
 
 ## Tech-stack
-**Frontend:**
-- TailwindCSS 4.x
-- HTML5
-**Backend:**
-- FastAPI
-**Database:**
-- PostgreSQL
-- A logging system for logs
-**Deployment:**
-- Docker
+- **Frontend:**
+	- TailwindCSS 4.x
+	- HTML5
+- **Backend:**
+	- FastAPI
+- **Database:**
+	- PostgreSQL
+	- A logging system for logs
+- **Deployment:**
+	- Docker
 
 ---
 
@@ -44,11 +44,11 @@
 - [ ] When you open a section and select code of that section with mouse, the container enlarges, fix this
 
 
-The `creator.yaml` will be used to specify all of the following:
+The `course_intro.yaml` will be used to specify all of the following:
 1. Course title
 3. Course badge 
 4. Course version 
-5. Languages (e.g. English & French)
+5. Language (This will be used for filtering)
 6. Course settings
 	1. Duration (in hours, because cyber moves fast, we don't have time)
 	2. Difficulty 
@@ -67,7 +67,7 @@ The `course_info.md` will have markdown page that would give an intro to the cou
 - Author(s), Co-Author(s), Editors(s), Technical reviewer(s)
 	- this includes name, a short bio, and a primary contact (e.g. LinkedIn)
 - Course reviews
-
+- Thanks
 
 The `course_structure.yaml` will contain structure for modules, sections, exercises & points. 
 1. Course structure 
