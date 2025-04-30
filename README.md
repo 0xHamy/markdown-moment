@@ -70,14 +70,17 @@ Courses will contain all courses with filters and search available to see:
 
 
 ### Backend for uploading courses
-- Create backend for admin to login & upload courses; all dangerous actions will require OTP & multiple confirmations 
+- Create backend for admin to login & upload courses; all dangerous actions will require OTP & multiple confirmations (re-login)
 - Create functionality to upload courses as zip or import them via a Github link; for private repos allow using access tokens; we must be able to select a specific commit or branch too 
-- Create a beautiful table to show all uploaded courses, their current commit number, last update, view 
+- Create a beautiful table to show all uploaded courses, their current commit number, last update, view, status 
 - You can't just update a course by clicking update, selecting a new zip and viola 
-    - You have to first upload a course, it will be hidden and saved as "under_review" course
+    - You have to first upload a course, it will be hidden and saved as "under_review" course (published, under review, retired)
     - Later, when you want to update, you select from the list of already uploaded courses to replace any old version with the new version 
     - These steps are mandatory to ensure that these actions are taken seriously 
 - To maintain accuracy, you have to upload specific language versions for every course 
+- Course delete option is available too but it courses can't be deleted UNLESS they are retired
+	- When a course is retired, it becomes available for deletion
+	- When a course is retired, it becomes hidden 
 
 
 the updates from github are all performed manually and when you create an update, a new copy of that course is made, this temporary copy could be compared with the previous course and also viewed in preview to ensure everything works. 
