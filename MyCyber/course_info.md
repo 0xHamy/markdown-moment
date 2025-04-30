@@ -1,5 +1,5 @@
 # Cyber Threat Intelligence: From Forums to Frontlines
-![Deep Dive Image](../media/vance.jpeg)
+![Deep Dive Image](../media/cti_badge.png)
 
 ## Course settings
 - **Duration:** 74 hours
@@ -36,14 +36,14 @@ Dive into the world of cyber threat intelligence with this hands-on, 74-hour cou
 
 ### Course Structure  
 Across eight modules, you’ll progress from foundational concepts to advanced applications:  
-1. **Laying the Groundwork (10 hours):** Understand threat intelligence, AI basics, and web scraping. Scrape a simulated forum post while navigating anti-scraping defenses.  
-2. **Building the Web Interface (12 hours):** Develop a FastAPI web app with a PostgreSQL backend to display scraped data.  
-3. **Building the Data Scraper (20 hours):** Create a stealthy scraper with proxy rotation, tiered scanning, and error resilience to collect and categorize forum data.  
-4. **Fine-Tuning an LLM (10 hours):** Train an LLM to flag threats and translate multilingual posts for actionable insights.  
-5. **Cyber Threat Intelligence Gathering (8 hours):** Scrape, analyze, and report simulated Canadian business breaches using automated templates and email.  
-6. **Intelligence Watchlists (6 hours):** Build a database to track threat actors and cross-reference their activities across forums.  
-7. **Custom Alert System (6 hours):** Set up real-time email (and optional SMS) alerts for prioritized threats.  
-8. **Conclusion & Next Steps (2 hours):** Recap your journey, explore real-world applications, and earn a “Cyber Mounties Threat Hunter” badge.  
+1. **Module 1: Laying the Groundwork (10 hours):** Understand threat intelligence, AI basics, and web scraping. Scrape a simulated forum post while navigating anti-scraping defenses.  
+2. **Module 2: Building the Web Interface (12 hours):** Develop a FastAPI web app with a PostgreSQL backend to display scraped data.  
+3. **Module 3: Building the Data Scraper (20 hours):** Create a stealthy scraper with proxy rotation, tiered scanning, and error resilience to collect and categorize forum data.  
+4. **Module 4: Fine-Tuning an LLM (10 hours):** Train an LLM to flag threats and translate multilingual posts for actionable insights.  
+5. **Module 5: Cyber Threat Intelligence Gathering (8 hours):** Scrape, analyze, and report simulated Canadian business breaches using automated templates and email.  
+6. **Module 6: Intelligence Watchlists (6 hours):** Build a database to track threat actors and cross-reference their activities across forums.  
+7. **Module 7: Custom Alert System (6 hours):** Set up real-time email (and optional SMS) alerts for prioritized threats.  
+8. **Module 8: Conclusion & Next Steps (2 hours):** Recap your journey, explore real-world applications, and earn a “Cyber Mounties Threat Hunter” badge.  
 
 
 ### Prerequisite

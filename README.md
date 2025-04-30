@@ -59,7 +59,9 @@ The `course_intro.yaml` will be used to specify all of the following:
 
 The `course_info.md` will have markdown page that would give an intro to the course, it will include all of the following:
 - Everything from creator.yaml 
-- Description
+- Overview
+- What you will learn
+- Course structure
 - Prerequisite
 - Languages this course is available in
 - Course auhtor(s), editor(s), technical reviewers, language reviewer  
