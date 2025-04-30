@@ -39,6 +39,7 @@ The `creator.yaml` will be used to specify all of the following:
 8. Prerequisite 
 	1. A list of things
 9. Topics discussed in a course (e.g. LLMs, Python, JS)
+10. Course reviews by other experts 
 
 
 The `course.yaml` will contain structure for modules, sections, exercises & points. 
