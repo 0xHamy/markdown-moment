@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="templates")
 
 def get_current_active_user(current_user: Optional[User] = Depends(get_current_user)):
     if current_user is None:
-        raise HTTPException(status_code=status.HTTP_307_TEMPORARY_REDIRECT, headers={"Location": "/auth"})
+        return RedirectResponse(url="/academy/auth")
     return current_user
 
 @templates_router.get("/courses/", response_class=HTMLResponse)

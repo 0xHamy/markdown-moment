@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.exceptions import HTTPException
 from database.database import Base, engine, get_db
 from database.models import User
 from routers.auth import auth_router
@@ -19,6 +20,16 @@ app.include_router(templates_router)
 
 def get_password_hash(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+@app.exception_handler(HTTPException)
+async def custom_http_exception_handler(request: Request, exc: HTTPException):
+    if exc.status_code == status.HTTP_307_TEMPORARY_REDIRECT and "Location" in exc.headers:
+        return RedirectResponse(url=exc.headers["Location"], status_code=307)
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+        headers=exc.headers
+    )
 
 @app.get("/")
 async def index(current_user: Optional[User] = Depends(get_current_user)):
