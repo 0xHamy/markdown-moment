@@ -41,10 +41,18 @@
 
     <div id="auth-message" class="mt-4 text-center text-red-400 hidden"></div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+{{ super() }}
 <script>
-$(document).ready(function() {
-    $('#login-tab').click(function() {
+
+jQuery(document).ready(function($) {
+    console.log('Document ready in auth.html, binding tab events');
+    
+    $('#login-tab').click(function(e) {
+        console.log('Login tab clicked');
+        e.preventDefault();
         $('#login-form').removeClass('hidden');
         $('#register-form').addClass('hidden');
         $('#login-tab').removeClass('bg-gray-600').addClass('bg-gray-700');
@@ -52,7 +60,9 @@ $(document).ready(function() {
         $('#auth-message').addClass('hidden').text('');
     });
 
-    $('#register-tab').click(function() {
+    $('#register-tab').click(function(e) {
+        console.log('Register tab clicked');
+        e.preventDefault();
         $('#register-form').removeClass('hidden');
         $('#login-form').addClass('hidden');
         $('#register-tab').removeClass('bg-gray-600').addClass('bg-gray-700');
@@ -60,7 +70,9 @@ $(document).ready(function() {
         $('#auth-message').addClass('hidden').text('');
     });
 
-    $('#login-btn').click(function() {
+    $('#login-btn').click(function(e) {
+        console.log('Login button clicked');
+        e.preventDefault();
         const username = $('#login-username').val();
         const password = $('#login-password').val();
         $.ajax({
@@ -69,15 +81,19 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({ username, password }),
             success: function(response) {
-                window.location.href = '/courses';
+                console.log('Login successful, redirecting to dashboard');
+                window.location.href = '/academy/dashboard';
             },
             error: function(xhr) {
+                console.error('Login failed:', xhr.responseJSON?.detail);
                 $('#auth-message').removeClass('hidden').text(xhr.responseJSON.detail);
             }
         });
     });
 
-    $('#register-btn').click(function() {
+    $('#register-btn').click(function(e) {
+        console.log('Register button clicked');
+        e.preventDefault();
         const username = $('#register-username').val();
         const password = $('#register-password').val();
         $.ajax({
@@ -86,10 +102,12 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({ username, password }),
             success: function(response) {
+                console.log('Registration successful');
                 $('#auth-message').removeClass('hidden').addClass('text-green-400').text('Registration successful! Please login.');
                 $('#login-tab').click();
             },
             error: function(xhr) {
+                console.error('Registration failed:', xhr.responseJSON?.detail);
                 $('#auth-message').removeClass('hidden').text(xhr.responseJSON.detail);
             }
         });

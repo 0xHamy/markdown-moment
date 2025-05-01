@@ -7,6 +7,7 @@ from database.models import User
 from routers.auth import auth_router
 from routers.courses import course_router
 from routers.templates import templates_router
+from routers.admin_router import admin_router
 from routers.auth import get_current_user
 import bcrypt
 import os
@@ -17,6 +18,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(course_router)
 app.include_router(auth_router)
 app.include_router(templates_router)
+app.include_router(admin_router)
 
 def get_password_hash(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -62,3 +64,4 @@ if __name__ == "__main__":
     import uvicorn
     os.makedirs("Uploads", exist_ok=True)
     uvicorn.run(app, host="0.0.0.0", port=8000)
+

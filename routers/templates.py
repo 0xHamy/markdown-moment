@@ -152,14 +152,6 @@ async def exercise(request: Request, exercise_id: int, db: Session = Depends(get
         }
     )
 
-@templates_router.get("/courses/upload", response_class=HTMLResponse)
-async def upload_page(request: Request, current_user: User = Depends(get_current_active_user)):
-    if not current_user.is_admin:
-        raise HTTPException(status_code=403, detail="Only admins can access this page")
-    messages = request.session.get('messages', [])
-    request.session['messages'] = []
-    return templates.TemplateResponse("upload.html", {"request": request, "messages": messages, "current_user": current_user})
-
 @templates_router.get("/courses/profile", response_class=HTMLResponse)
 async def profile(request: Request, current_user: User = Depends(get_current_active_user)):
     messages = request.session.get('messages', [])
@@ -172,3 +164,4 @@ async def profile(request: Request, current_user: User = Depends(get_current_act
 @templates_router.get("/auth", response_class=HTMLResponse)
 async def auth_page(request: Request):
     return templates.TemplateResponse("auth.html", {"request": request})
+

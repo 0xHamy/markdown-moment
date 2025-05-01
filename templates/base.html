@@ -69,21 +69,21 @@
                     </svg>
                 </button>
                 {% endif %}
-                <a href="/courses/" class="text-xl font-bold text-white">MyCyber</a>
+                <a href="/academy/courses/" class="text-xl font-bold text-white">MyCyber</a>
             </div>
             <!-- Navigation Links (hidden on mobile) -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="/courses/" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
+                <a href="/academy/courses/" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
                 {% if current_user and current_user.is_admin %}
-                <a href="/courses/upload" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
+                <a href="/admin/courses/upload" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
                 {% endif %}
                 {% if current_user %}
-                <a href="/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
-                <a href="/courses/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
+                <a href="/academy/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                <a href="/academy/courses/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
                 <span class="text-sm text-gray-300">{{ current_user.username }}</span>
                 <a href="#" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</a>
                 {% else %}
-                <a href="/auth" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
+                <a href="/academy/auth" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
                 {% endif %}
             </div>
             <!-- Mobile Menu Button -->
@@ -96,16 +96,16 @@
     </nav>
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-64px)] bg-gray-800 px-4 py-2 z-40 mobile-menu mobile-menu-hidden">
-        <a href="/courses/" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
+        <a href="/academy/courses/" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
         {% if current_user and current_user.is_admin %}
-        <a href="/courses/upload" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
+        <a href="/admin/courses/upload" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
         {% endif %}
         {% if current_user %}
-        <a href="/dashboard" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
-        <a href="/courses/profile" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
+        <a href="/academy/dashboard" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
+        <a href="/academy/courses/profile" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
         <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</a>
         {% else %}
-        <a href="/auth" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>
+        <a href="/academy/auth" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>
         {% endif %}
     </div>
 
@@ -130,12 +130,20 @@
         </main>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- jQuery CDN with integrity check -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Fallback to local jQuery if CDN fails -->
+    <script>
+        if (typeof jQuery === 'undefined') {
+            document.write('<script src="/static/js/jquery-3.7.1.min.js"><\/script>');
+        }
+    </script>
     <!-- Highlight.js JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Base scripts -->
+    {% block scripts %}
     <script>
-        $(document).ready(function() {
+        jQuery(document).ready(function($) {
             // Mobile Menu Toggle
             $('.mobile-menu-button').click(function(e) {
                 e.stopPropagation();
@@ -184,7 +192,7 @@
                     type: 'POST',
                     contentType: 'application/json',
                     success: function(response) {
-                        window.location.href = '/courses/';
+                        window.location.href = '/academy/courses/';
                     },
                     error: function(xhr) {
                         alert('Logout failed: ' + (xhr.responseJSON?.detail || 'Unknown error'));
@@ -196,5 +204,6 @@
             hljs.highlightAll();
         });
     </script>
+    {% endblock %}
 </body>
 </html>
