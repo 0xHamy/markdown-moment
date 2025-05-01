@@ -104,7 +104,7 @@ Courses will contain all courses with filters and search available to see:
 
 
 ### Backend for uploading courses
-- Create backend for admin to login & upload courses; all dangerous actions will require OTP & multiple confirmations (re-login)
+- Create backend for admin to login & upload courses; all dangerous actions will require OTP & multiple confirmations such as re-login with OAuth 
 - Create functionality to upload courses as zip or import them via a Github link; for private repos allow using access tokens; we must be able to select a specific commit or branch too 
 - Create a beautiful table to show all uploaded courses, their current commit number, last update, view, status 
 - You can't just update a course by clicking update, selecting a new zip and viola 
@@ -120,6 +120,7 @@ Courses will contain all courses with filters and search available to see:
 - Security 
 	- Implement strict one type use cookies and auth token for all actions 
 	- Perform force logout after 5 minute of inactivity 
+- admin login will also require VPN access to the server 
 
 
 the updates from github are all performed manually and when you create an update, a new copy of that course is made, this temporary copy could be compared with the previous course and also viewed in preview to ensure everything works. 
