@@ -17,20 +17,25 @@
 ---
 
 # Todo
-- [ ] Convert the whole code to FastAPI & use the PostgreSQL database
-- [ ] Create course_info.md (all of this content is saved as base64 and displayed)
-- [ ] Create course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
-- [ ] Create course_structure.yaml for structure of modules, sections & exercises
-- [ ] Create login, register, logout with usernames alone (for testing)
-- [ ] Create admin user
+- [X] Convert the whole code to FastAPI
+- [ ] Ensure all pages, backend code and logic works properly 
+- [ ] Transition to PostgreSQL database
+- [ ] Integrate course_info.md (all of this content is saved as base64 and displayed)
+- [ ] Integrate course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
+- [ ] Integrate course_structure.yaml for structure of modules, sections & exercises
+- [X] Create login, register, logout with usernames alone (for testing)
+- [X] Create admin user
 	- [ ] Show a different area for admins when they login, for example course upload is only visible to admins 
 - [ ] add strict cookies & auth token that expires quickly after use 
+- [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
+- [ ] Create account deletion page
+- [X] Before login should only sign up / sign in forms 
+- [X] Restrict course uploading to a specific user (e.g. admin)
+	- [ ] Test it again
 
 ---
 
-- [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
-- [ ] Create account deletion page
 - [ ] Add appropriate messages for when you finish courses & stuff
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Add a badges sections for the badges you earn when you complete a course 
@@ -38,8 +43,6 @@
 - [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
 - [ ] The container moves to the left while viewing a section, fix that
-- [ ] Restrict course uploading to a specific user (e.g. admin)
-- [ ] Before login should only sign up / sign in forms 
 - [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
 - [ ] When you open a section and select code of that section with mouse, the container enlarges, fix this
 
