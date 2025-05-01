@@ -6,15 +6,15 @@ from sqlalchemy import asc
 import yaml
 import base64
 import markdown
-from database.database import get_db
-from database.models import Course, Module, Section, Exercise, User, Completion
-from routers.auth import get_current_user
+from app.database.database import get_db
+from app.database.models import Course, Module, Section, Exercise, User, Completion
+from app.routers.auth import get_current_user
 from fastapi.requests import Request
 from typing import Optional
 
 
 templates_router = APIRouter(prefix="/academy", tags=["Base Academy Endpoints"])
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 def get_current_active_user(current_user: Optional[User] = Depends(get_current_user)):

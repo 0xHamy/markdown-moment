@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database.models import Course, Module, Section, Exercise, User, Completion
-from schemas import CourseResponse, CompletionResponse
-from database.database import get_db
-from routers.auth import get_current_user
+from app.database.models import Course, Module, Section, Exercise, User, Completion
+from app.schemas import CourseResponse, CompletionResponse
+from app.database.database import get_db
+from app.routers.auth import get_current_user
 
 course_router = APIRouter(prefix="/course", tags=["Course Endpoints"])
 

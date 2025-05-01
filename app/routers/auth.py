@@ -5,9 +5,9 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Optional
 import bcrypt
-from database.models import User
-from schemas import UserCreate, UserLogin
-from database.database import get_db
+from app.database.models import User
+from app.schemas import UserCreate, UserLogin
+from app.database.database import get_db
 
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth Endpoints"])

@@ -1,7 +1,7 @@
 import sys
 from sqlalchemy import inspect
-from database.database import Base, engine 
-from database.models import Course, Module, Section, Exercise, User, Completion
+from app.database.database import Base, engine 
+from app.database.models import Course, Module, Section, Exercise, User, Completion
 
 def create_tables():
     """Create all tables defined in models."""
@@ -26,6 +26,7 @@ def drop_tables():
     except Exception as e:
         print(f"Error dropping tables: {e}")
         raise
+
 
 def main(action: str):
     """Execute the specified database action."""

@@ -2,19 +2,19 @@ from fastapi import FastAPI, Depends, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.exceptions import HTTPException
-from database.database import Base, engine, get_db
-from database.models import User
-from routers.auth import auth_router
-from routers.courses import course_router
-from routers.templates import templates_router
-from routers.admin_router import admin_router
-from routers.auth import get_current_user
+from app.database.database import Base, engine, get_db
+from app.database.models import User
+from app.routers.auth import auth_router
+from app.routers.courses import course_router
+from app.routers.templates import templates_router
+from app.routers.admin_router import admin_router
+from app.routers.auth import get_current_user
 import bcrypt
 import os
 from typing import Optional
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(course_router)
 app.include_router(auth_router)
 app.include_router(templates_router)
@@ -62,6 +62,6 @@ async def startup_event():
 
 if __name__ == "__main__":
     import uvicorn
-    os.makedirs("Uploads", exist_ok=True)
+    os.makedirs("app/Uploads", exist_ok=True)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 

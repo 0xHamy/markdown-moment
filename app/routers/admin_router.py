@@ -8,13 +8,13 @@ import base64
 import zipfile
 import tempfile
 import os
-from database.models import Course, Module, Section, Exercise, User
-from database.database import get_db
-from routers.auth import get_current_user
+from app.database.models import Course, Module, Section, Exercise, User
+from app.database.database import get_db
+from app.routers.auth import get_current_user
 from typing import Optional
 
 admin_router = APIRouter(prefix="/admin", tags=["Admin Endpoints"])
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 def upload_course(course_yaml_path, creator_yaml_path, course_dir, db: Session):
     with open(course_yaml_path, 'r') as f:
@@ -36,7 +36,7 @@ def upload_course(course_yaml_path, creator_yaml_path, course_dir, db: Session):
     db.commit()
 
     media_src = os.path.join(course_dir, 'media')
-    media_dest = os.path.join('static', 'media', course_yaml_id)
+    media_dest = os.path.join('app', 'static', 'media', course_yaml_id)
     if os.path.exists(media_src):
         shutil.copytree(media_src, media_dest, dirs_exist_ok=True)
 
