@@ -12,9 +12,13 @@ from app.routers.auth import get_current_user
 import bcrypt
 import os
 from typing import Optional
+from starlette.middleware.sessions import SessionMiddleware
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="your-secure-secret-key")
+
 app.include_router(course_router)
 app.include_router(auth_router)
 app.include_router(templates_router)

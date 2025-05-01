@@ -13,6 +13,7 @@ from fastapi.requests import Request
 from typing import Optional
 
 
+
 templates_router = APIRouter(prefix="/academy", tags=["Base Academy Endpoints"])
 templates = Jinja2Templates(directory="app/templates")
 
