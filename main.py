@@ -2,10 +2,10 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from database.database import Base, engine, get_db
-from database.models import User
+from database.models import User, Course, Module, Section, Exercise
 from routers import courses, auth
 import bcrypt
-import os
+import os, yaml, base64
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
