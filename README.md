@@ -28,7 +28,7 @@
 	- [ ] Show a different area for admins when they login, for example course upload is only visible to admins 
 - [ ] add strict cookies & auth token that expires quickly after use 
 - [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
-- [ ] Create account deletion page
+- [ ] Create account deletion page; disable it for admin 
 - [X] Before login should only sign up / sign in forms 
 - [X] Restrict course uploading to a specific user (e.g. admin)
 	- [ ] Test it again
@@ -37,9 +37,10 @@
 
 - [ ] Add dim mode to create an overlay on site for night mode 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
-- [ ] Add logs 
+- [ ] Add logs for all actions 
 - [ ] Add strict CSP rules & localize everything 
 - [ ] Add appropriate messages for when you finish courses & stuff
+- [ ] Add a proper changelog, security.md 
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Add a badges sections for the badges you earn when you complete a course 
 - [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
