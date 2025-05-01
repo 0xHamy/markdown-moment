@@ -35,7 +35,10 @@
 
 ---
 
+- [ ] Add dim mode to create an overlay on site for night mode 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
+- [ ] Add logs 
+- [ ] Add strict CSP rules & localize everything 
 - [ ] Add appropriate messages for when you finish courses & stuff
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Add a badges sections for the badges you earn when you complete a course 
