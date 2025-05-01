@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-{% set has_sidebar = False %}
-
 {% block title %}{{ course.title }}{% endblock %}
-
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6">
     <!-- Course Header -->
@@ -14,7 +11,8 @@
     <!-- Mark Course as Completed Button -->
     {% if can_complete_course %}
     <div class="mb-6">
-        <form method="post" action="{{ url_for('complete', item_type='course', item_id=course.id) }}">
+        <form method="post" action="{% url 'app:complete' item_type='course' item_id=course.id %}">
+            {% csrf_token %}
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
                 Mark Course as Completed
             </button>
@@ -30,27 +28,27 @@
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xl font-semibold text-gray-100">{{ module.title }}</h3>
                     <span class="text-md font-medium text-blue-400">{{ module.points }} points
-                        {% if ('module', module.id) in completed_items %}
+                        {% if 'module'|add:module.id|stringformat:"s" in completed_items %}
                             <span class="text-green-400"> (Completed)</span>
                         {% endif %}
                     </span>
                 </div>
                 <ul class="space-y-2">
-                    {% for section in module.sections %}
+                    {% for section in module.sections.all %}
                         <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
-                            <a href="{{ url_for('section', section_id=section.id) }}" class="text-blue-400 hover:underline">{{ section.title }}</a>
+                            <a href="{% url 'app:section' section_id=section.id %}" class="text-blue-400 hover:underline">{{ section.title }}</a>
                             <span class="text-sm text-gray-400">{{ section.points }} points
-                                {% if ('section', section.id) in completed_items %}
+                                {% if 'section'|add:section.id|stringformat:"s" in completed_items %}
                                     <span class="text-green-400"> (Completed)</span>
                                 {% endif %}
                             </span>
                         </li>
                     {% endfor %}
-                    {% if module.exercise %}
+                    {% if module.exercise.first %}
                         <li class="flex items-center justify-between bg-gray-800 p-3 rounded-md shadow-sm hover:bg-gray-600">
-                            <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}" class="text-blue-400 hover:underline">Exercises</a>
-                            <span class="text-sm text-gray-400">{{ module.exercise.points }} points
-                                {% if ('exercise', module.exercise.id) in completed_items %}
+                            <a href="{% url 'app:exercise' exercise_id=module.exercise.first.id %}" class="text-blue-400 hover:underline">Exercises</a>
+                            <span class="text-sm text-gray-400">{{ module.exercise.first.points }} points
+                                {% if 'exercise'|add:module.exercise.first.id|stringformat:"s" in completed_items %}
                                     <span class="text-green-400"> (Completed)</span>
                                 {% endif %}
                             </span>
@@ -64,15 +62,15 @@
     <!-- Creators -->
     <h2 class="text-2xl font-semibold text-gray-100 mt-8 mb-4">Creators</h2>
     <div class="bg-gray-700 border border-gray-600 rounded-lg p-4">
-        <p class="text-gray-300"><strong>Authors:</strong> {{ creator_info.authors|map(attribute='name')|join(', ') }}</p>
-        <p class="text-gray-300"><strong>Editors:</strong> {{ creator_info.editors|map(attribute='name')|join(', ') }}</p>
-        <p class="text-gray-300"><strong>Contributors:</strong> {{ creator_info.contributors|map(attribute='name')|join(', ') }}</p>
+        <p class="text-gray-300"><strong>Authors:</strong> {{ creator_info.authors|map(attribute='name')|join:', ' }}</p>
+        <p class="text-gray-300"><strong>Editors:</strong> {{ creator_info.editors|map(attribute='name')|join:', ' }}</p>
+        <p class="text-gray-300"><strong>Contributors:</strong> {{ creator_info.contributors|map(attribute='name')|join:', ' }}</p>
         <p class="text-gray-300 mt-2">{{ creator_info.thanks }}</p>
     </div>
 
     <!-- Back Button -->
     <div class="mt-6">
-        <a href="{{ url_for('index') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Back to Courses</a>
+        <a href="{% url 'app:courses' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Back to Courses</a>
     </div>
 </div>
 {% endblock %}

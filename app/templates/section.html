@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-{% set has_sidebar = True %}
-
 {% block title %}{{ section.title }}{% endblock %}
-
 {% block sidebar %}
 <!-- Left Sidebar -->
 <aside id="sidebar" class="fixed top-16 left-0 w-64 h-[calc(100vh-64px)] bg-gray-800 overflow-y-auto sidebar md:translate-x-0">
@@ -12,17 +9,17 @@
             <details open class="mb-2">
                 <summary class="cursor-pointer font-medium text-gray-100">{{ module.title }}</summary>
                 <ul class="pl-4 mt-2 space-y-1">
-                    {% for sec in module.sections %}
+                    {% for sec in module.sections.all %}
                         <li>
-                            <a href="{{ url_for('section', section_id=sec.id) }}"
+                            <a href="{% url 'app:section' section_id=sec.id %}"
                                class="text-sm text-gray-300 hover:text-blue-400 {% if sec.id == section.id %}font-bold text-blue-400{% endif %}">
                                 {{ sec.title }}
                             </a>
                         </li>
                     {% endfor %}
-                    {% if module.exercise %}
+                    {% if module.exercise.first %}
                         <li>
-                            <a href="{{ url_for('exercise', exercise_id=module.exercise.id) }}"
+                            <a href="{% url 'app:exercise' exercise_id=module.exercise.first.id %}"
                                class="text-sm text-gray-300 hover:text-blue-400">
                                 Exercises
                             </a>
@@ -34,7 +31,6 @@
     </div>
 </aside>
 {% endblock %}
-
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6">
     <!-- Section Header -->
@@ -47,12 +43,13 @@
 
     <!-- Actions -->
     <div class="mt-6 flex space-x-4">
-        <form method="post" action="{{ url_for('complete', item_type='section', item_id=section.id) }}">
+        <form method="post" action="{% url 'app:complete' item_type='section' item_id=section.id %}">
+            {% csrf_token %}
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
                 Mark as Completed
             </button>
         </form>
-        <a href="{{ url_for('course', course_id=section.module.course.id) }}" class="inline-flex items-center px-4 py-2 text-blue-400 hover:underline">
+        <a href="{% url 'app:course' course_id=section.module.course.id %}" class="inline-flex items-center px-4 py-2 text-blue-400 hover:underline">
             Back to Course
         </a>
     </div>

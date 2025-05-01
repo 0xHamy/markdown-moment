@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Courses{% endblock %}
-{% set has_sidebar = False %}
-
 {% block content %}
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6">Available Courses</h1>
@@ -11,7 +9,7 @@
         <div class="bg-gray-800 rounded-lg shadow-lg p-6">
             <h2 class="text-xl font-semibold mb-2">{{ course.title }}</h2>
             <p class="text-gray-300 mb-4">Points: {{ course.points }}</p>
-            <a href="/courses/course/{{ course.id }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">View Course</a>
+            <a href="{% url 'app:course' course_id=course.id %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">View Course</a>
         </div>
         {% endfor %}
     </div>

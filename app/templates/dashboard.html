@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
-{% set has_sidebar = False %}
-
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Welcome, {{ username }}!</h1>
+    <h1 class="text-3xl font-bold mb-6">Welcome, {{ user.username }}!</h1>
     <p class="text-gray-300 mb-4">
         We're thrilled to have you here at MyCyber Courses! Dive into our exciting courses to expand your knowledge and earn points.
     </p>
-    <a href="/courses/" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Explore Courses</a>
+    <a href="{% url 'app:courses' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Explore Courses</a>
 </div>
 {% endblock %}
