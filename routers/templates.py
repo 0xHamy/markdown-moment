@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy import asc
@@ -15,14 +15,28 @@ from typing import Optional
 router = APIRouter(tags=["templates"])
 templates = Jinja2Templates(directory="templates")
 
+def get_current_active_user(current_user: Optional[User] = Depends(get_current_user)):
+    if current_user is None:
+        raise HTTPException(status_code=status.HTTP_307_TEMPORARY_REDIRECT, headers={"Location": "/auth"})
+    return current_user
+
 @router.get("/courses/", response_class=HTMLResponse)
-async def index(request: Request, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
+async def courses(request: Request, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
     courses = db.query(Course).all()
     messages = request.session.get('messages', [])
     request.session['messages'] = []
     return templates.TemplateResponse(
-        "index.html",
+        "courses.html",
         {"request": request, "courses": courses, "messages": messages, "current_user": current_user}
+    )
+
+@router.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request, current_user: User = Depends(get_current_active_user)):
+    messages = request.session.get('messages', [])
+    request.session['messages'] = []
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {"request": request, "username": current_user.username, "messages": messages, "current_user": current_user}
     )
 
 @router.get("/courses/course/{course_id}", response_class=HTMLResponse)
@@ -137,7 +151,7 @@ async def exercise(request: Request, exercise_id: int, db: Session = Depends(get
     )
 
 @router.get("/courses/upload", response_class=HTMLResponse)
-async def upload_page(request: Request, current_user: User = Depends(get_current_user)):
+async def upload_page(request: Request, current_user: User = Depends(get_current_active_user)):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Only admins can access this page")
     messages = request.session.get('messages', [])
@@ -145,7 +159,7 @@ async def upload_page(request: Request, current_user: User = Depends(get_current
     return templates.TemplateResponse("upload.html", {"request": request, "messages": messages, "current_user": current_user})
 
 @router.get("/courses/profile", response_class=HTMLResponse)
-async def profile(request: Request, current_user: User = Depends(get_current_user)):
+async def profile(request: Request, current_user: User = Depends(get_current_active_user)):
     messages = request.session.get('messages', [])
     request.session['messages'] = []
     return templates.TemplateResponse(
@@ -156,3 +170,4 @@ async def profile(request: Request, current_user: User = Depends(get_current_use
 @router.get("/auth", response_class=HTMLResponse)
 async def auth_page(request: Request):
     return templates.TemplateResponse("auth.html", {"request": request})
+

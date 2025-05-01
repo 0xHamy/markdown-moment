@@ -77,8 +77,9 @@
                 {% if current_user and current_user.is_admin %}
                 <a href="/courses/upload" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
                 {% endif %}
-                <a href="/courses/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
                 {% if current_user %}
+                <a href="/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                <a href="/courses/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
                 <span class="text-sm text-gray-300">{{ current_user.username }}</span>
                 <a href="#" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</a>
                 {% else %}
@@ -99,8 +100,9 @@
         {% if current_user and current_user.is_admin %}
         <a href="/courses/upload" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
         {% endif %}
-        <a href="/courses/profile" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
         {% if current_user %}
+        <a href="/dashboard" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
+        <a href="/courses/profile" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
         <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</a>
         {% else %}
         <a href="/auth" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>

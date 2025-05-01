@@ -11,7 +11,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(courses.router)
 app.include_router(auth.router)
-app.include_router(templates.router) 
+app.include_router(templates.router)
 
 def get_password_hash(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -45,4 +45,3 @@ if __name__ == "__main__":
     import uvicorn
     os.makedirs("Uploads", exist_ok=True)
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
