@@ -1,24 +1,30 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from database.database import Base, engine, get_db
 from database.models import User
-from routers import courses, auth, templates
+from routers.auth import auth_router
+from routers.courses import course_router
+from routers.templates import templates_router
+from routers.auth import get_current_user
 import bcrypt
 import os
+from typing import Optional
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(courses.router)
-app.include_router(auth.router)
-app.include_router(templates.router)
+app.include_router(course_router)
+app.include_router(auth_router)
+app.include_router(templates_router)
 
 def get_password_hash(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
 @app.get("/")
-async def root():
-    return RedirectResponse(url="/courses/")
+async def index(current_user: Optional[User] = Depends(get_current_user)):
+    if current_user:
+        return RedirectResponse(url="/academy/dashboard")
+    return RedirectResponse(url="/academy/auth")
 
 @app.on_event("startup")
 async def startup_event():

@@ -12,15 +12,17 @@ from routers.auth import get_current_user
 from fastapi.requests import Request
 from typing import Optional
 
-router = APIRouter(tags=["templates"])
+
+templates_router = APIRouter(prefix="/academy", tags=["Base Academy Endpoints"])
 templates = Jinja2Templates(directory="templates")
+
 
 def get_current_active_user(current_user: Optional[User] = Depends(get_current_user)):
     if current_user is None:
         raise HTTPException(status_code=status.HTTP_307_TEMPORARY_REDIRECT, headers={"Location": "/auth"})
     return current_user
 
-@router.get("/courses/", response_class=HTMLResponse)
+@templates_router.get("/courses/", response_class=HTMLResponse)
 async def courses(request: Request, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
     courses = db.query(Course).all()
     messages = request.session.get('messages', [])
@@ -30,7 +32,7 @@ async def courses(request: Request, db: Session = Depends(get_db), current_user:
         {"request": request, "courses": courses, "messages": messages, "current_user": current_user}
     )
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@templates_router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, current_user: User = Depends(get_current_active_user)):
     messages = request.session.get('messages', [])
     request.session['messages'] = []
@@ -39,7 +41,7 @@ async def dashboard(request: Request, current_user: User = Depends(get_current_a
         {"request": request, "username": current_user.username, "messages": messages, "current_user": current_user}
     )
 
-@router.get("/courses/course/{course_id}", response_class=HTMLResponse)
+@templates_router.get("/courses/course/{course_id}", response_class=HTMLResponse)
 async def course(request: Request, course_id: int, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
     course = db.query(Course).filter(Course.id == course_id).first()
     if not course:
@@ -82,7 +84,7 @@ async def course(request: Request, course_id: int, db: Session = Depends(get_db)
         }
     )
 
-@router.get("/courses/section/{section_id}", response_class=HTMLResponse)
+@templates_router.get("/courses/section/{section_id}", response_class=HTMLResponse)
 async def section(request: Request, section_id: int, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
     section = db.query(Section).filter(Section.id == section_id).first()
     if not section:
@@ -116,7 +118,7 @@ async def section(request: Request, section_id: int, db: Session = Depends(get_d
         }
     )
 
-@router.get("/courses/exercise/{exercise_id}", response_class=HTMLResponse)
+@templates_router.get("/courses/exercise/{exercise_id}", response_class=HTMLResponse)
 async def exercise(request: Request, exercise_id: int, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_current_user)):
     exercise = db.query(Exercise).filter(Exercise.id == exercise_id).first()
     if not exercise:
@@ -150,7 +152,7 @@ async def exercise(request: Request, exercise_id: int, db: Session = Depends(get
         }
     )
 
-@router.get("/courses/upload", response_class=HTMLResponse)
+@templates_router.get("/courses/upload", response_class=HTMLResponse)
 async def upload_page(request: Request, current_user: User = Depends(get_current_active_user)):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Only admins can access this page")
@@ -158,7 +160,7 @@ async def upload_page(request: Request, current_user: User = Depends(get_current
     request.session['messages'] = []
     return templates.TemplateResponse("upload.html", {"request": request, "messages": messages, "current_user": current_user})
 
-@router.get("/courses/profile", response_class=HTMLResponse)
+@templates_router.get("/courses/profile", response_class=HTMLResponse)
 async def profile(request: Request, current_user: User = Depends(get_current_active_user)):
     messages = request.session.get('messages', [])
     request.session['messages'] = []
@@ -167,7 +169,6 @@ async def profile(request: Request, current_user: User = Depends(get_current_act
         {"request": request, "username": current_user.username, "total_score": current_user.points, "messages": messages, "current_user": current_user}
     )
 
-@router.get("/auth", response_class=HTMLResponse)
+@templates_router.get("/auth", response_class=HTMLResponse)
 async def auth_page(request: Request):
     return templates.TemplateResponse("auth.html", {"request": request})
-

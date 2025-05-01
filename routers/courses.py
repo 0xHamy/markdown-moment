@@ -12,7 +12,9 @@ from database.database import get_db
 from routers.auth import get_current_user
 from fastapi.requests import Request
 
-router = APIRouter(prefix="/courses", tags=["courses"])
+
+course_router = APIRouter(prefix="/course", tags=["Course Endpoints"])
+
 
 def upload_course(course_yaml_path, creator_yaml_path, course_dir, db: Session):
     with open(course_yaml_path, 'r') as f:
@@ -78,7 +80,7 @@ def upload_course(course_yaml_path, creator_yaml_path, course_dir, db: Session):
 
     db.commit()
 
-@router.post("/complete/{item_type}/{item_id}")
+@course_router.post("/complete/{item_type}/{item_id}")
 async def complete(item_type: str, item_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if item_type not in ['section', 'exercise', 'course']:
         raise HTTPException(status_code=400, detail="Invalid item type")
@@ -131,7 +133,7 @@ async def complete(item_type: str, item_id: int, db: Session = Depends(get_db), 
     db.commit()
     return {"message": "Completion recorded"}
 
-@router.post("/upload")
+@course_router.post("/upload")
 async def upload(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),

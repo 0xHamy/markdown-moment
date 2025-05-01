@@ -9,7 +9,9 @@ from database.models import User
 from schemas import UserCreate, UserLogin
 from database.database import get_db
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+
+auth_router = APIRouter(prefix="/auth", tags=["Auth Endpoints"])
+
 
 SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
@@ -44,7 +46,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     except JWTError:
         return None
 
-@router.post("/register")
+@auth_router.post("/register")
 async def register(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:
@@ -56,7 +58,7 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return {"message": "User registered successfully"}
 
-@router.post("/login")
+@auth_router.post("/login")
 async def login(user: UserLogin, response: Response, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
     if not db_user or not verify_password(user.password, db_user.hashed_password):
@@ -68,7 +70,7 @@ async def login(user: UserLogin, response: Response, db: Session = Depends(get_d
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
     return {"message": "Login successful"}
 
-@router.post("/logout")
+@auth_router.post("/logout")
 async def logout(response: Response):
     response.delete_cookie("access_token")
     return {"message": "Logout successful"}
