@@ -79,4 +79,3 @@ async def login(user: UserLogin, response: Response, db: Session = Depends(get_d
 async def logout(response: Response):
     response.delete_cookie("access_token")
     return {"message": "Logout successful"}
-
