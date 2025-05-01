@@ -27,3 +27,4 @@ class Command(BaseCommand):
                 is_admin=True
             )
             self.stdout.write(self.style.SUCCESS('Created admin'))
+
