@@ -1,10 +1,7 @@
-sqlalchemy
 pyyaml
 markdown
-fastapi
 jinja2
-python-multipart
+django==5.0.*
+pyyaml
+markdown
 bcrypt
-python-jose[cryptography]
-uvicorn
-fastapi-sessions

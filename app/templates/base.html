@@ -73,11 +73,11 @@
             </div>
             <!-- Navigation Links (hidden on mobile) -->
             <div class="hidden md:flex items-center space-x-4">
+                {% if current_user %}
                 <a href="/academy/courses/" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
-                {% if current_user and current_user.is_admin %}
+                {% if current_user.is_admin %}
                 <a href="/admin/courses/upload" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
                 {% endif %}
-                {% if current_user %}
                 <a href="/academy/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
                 <a href="/academy/courses/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
                 <span class="text-sm text-gray-300">{{ current_user.username }}</span>
@@ -96,11 +96,11 @@
     </nav>
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-64px)] bg-gray-800 px-4 py-2 z-40 mobile-menu mobile-menu-hidden">
+        {% if current_user %}
         <a href="/academy/courses/" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
-        {% if current_user and current_user.is_admin %}
+        {% if current_user.is_admin %}
         <a href="/admin/courses/upload" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
         {% endif %}
-        {% if current_user %}
         <a href="/academy/dashboard" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
         <a href="/academy/courses/profile" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
         <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</a>
