@@ -37,6 +37,8 @@
 
 - [ ] Add dim mode to create an overlay on site for night mode 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
+	- [ ] Create the same course in French
+	- [ ] Ensure it works 
 - [ ] Add logs for all actions 
 - [ ] Add strict CSP rules & localize everything 
 - [ ] Add appropriate messages for when you finish courses & stuff
