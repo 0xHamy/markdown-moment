@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% set has_sidebar = False %}
+
+{% block title %}Login / Register{% endblock %}
+
+{% block content %}
+<div class="bg-gray-800 shadow-lg rounded-lg p-6 max-w-md mx-auto">
+    <h1 class="text-3xl font-bold text-gray-100 mb-6 text-center">Login / Register</h1>
+    
+    <!-- Tabs -->
+    <div class="flex mb-4">
+        <button id="login-tab" class="flex-1 py-2 text-center text-gray-100 bg-gray-700 rounded-l-md hover:bg-gray-600">Login</button>
+        <button id="register-tab" class="flex-1 py-2 text-center text-gray-100 bg-gray-600 rounded-r-md hover:bg-gray-600">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="space-y-4">
+        <div>
+            <label for="login-username" class="block text-sm font-medium text-gray-300">Username</label>
+            <input type="text" id="login-username" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+            <label for="login-password" class="block text-sm font-medium text-gray-300">Password</label>
+            <input type="password" id="login-password" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <button id="login-btn" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Login</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="register-form" class="space-y-4 hidden">
+        <div>
+            <label for="register-username" class="block text-sm font-medium text-gray-300">Username</label>
+            <input type="text" id="register-username" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+            <label for="register-password" class="block text-sm font-medium text-gray-300">Password</label>
+            <input type="password" id="register-password" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <button id="register-btn" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Register</button>
+    </div>
+
+    <div id="auth-message" class="mt-4 text-center text-red-400 hidden"></div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#login-tab').click(function() {
+        $('#login-form').removeClass('hidden');
+        $('#register-form').addClass('hidden');
+        $('#login-tab').removeClass('bg-gray-600').addClass('bg-gray-700');
+        $('#register-tab').removeClass('bg-gray-700').addClass('bg-gray-600');
+        $('#auth-message').addClass('hidden').text('');
+    });
+
+    $('#register-tab').click(function() {
+        $('#register-form').removeClass('hidden');
+        $('#login-form').addClass('hidden');
+        $('#register-tab').removeClass('bg-gray-600').addClass('bg-gray-700');
+        $('#login-tab').removeClass('bg-gray-700').addClass('bg-gray-600');
+        $('#auth-message').addClass('hidden').text('');
+    });
+
+    $('#login-btn').click(function() {
+        const username = $('#login-username').val();
+        const password = $('#login-password').val();
+        $.ajax({
+            url: '/auth/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ username, password }),
+            success: function(response) {
+                window.location.href = '/courses';
+            },
+            error: function(xhr) {
+                $('#auth-message').removeClass('hidden').text(xhr.responseJSON.detail);
+            }
+        });
+    });
+
+    $('#register-btn').click(function() {
+        const username = $('#register-username').val();
+        const password = $('#register-password').val();
+        $.ajax({
+            url: '/auth/register',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ username, password }),
+            success: function(response) {
+                $('#auth-message').removeClass('hidden').addClass('text-green-400').text('Registration successful! Please login.');
+                $('#login-tab').click();
+            },
+            error: function(xhr) {
+                $('#auth-message').removeClass('hidden').text(xhr.responseJSON.detail);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
