@@ -1,5 +1,5 @@
 # Cyber Threat Intelligence: From Forums to Frontlines
-![Deep Dive Image](../media/cti_badge.png)
+![Deep Dive Image](./media/cti_badge.png)
 
 ## Course settings
 - **Duration:** 74 hours
