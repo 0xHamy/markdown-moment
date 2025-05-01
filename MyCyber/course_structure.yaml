@@ -5,6 +5,7 @@ course:
   modules:
     - id: "module1"
       title: "Module 1: Basics"
+      description: "Introduction to basic concepts."
       points: 20
       sections:
         - id: "section1"
@@ -20,6 +21,7 @@ course:
         points: 10
     - id: "module2"
       title: "Module 2: Advanced Topics"
+      description: "Exploring advanced topics in depth."
       points: 30
       sections:
         - id: "section1"

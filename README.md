@@ -6,6 +6,7 @@
 - **Frontend:**
 	- TailwindCSS 4.x
 	- HTML5
+	- jQuery
 - **Backend:**
 	- FastAPI
 - **Database:**
@@ -35,6 +36,12 @@
 
 ---
 
+- [ ] When doing a section, the sidebar should only show chapters & sections for that module
+	- [ ] Each module can be done any time and they will have its own progress bar that will show on course review page 
+- [ ] Horizontal course card must have info from course_intro.yaml && two buttons, one to show "Course Information" and another one to "View course"
+	- [ ] Show information will show contents of course_info.md
+	- [ ] `View course` will show each module on a horizontal card with description and `View` button and it will show a progress bar
+	- [ ] Additionally this page will show a base progress bar that calculates score from all modules within that course; all points too 
 - [ ] Add dim mode to create an overlay on site for night mode 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
 	- [ ] Create the same course in French
