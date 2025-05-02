@@ -84,5 +84,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'app.User'
 
+AUTHENTICATION_BACKENDS = [
+    'app.auth.CustomAuthBackend',
+]
 LOGIN_URL = '/academy/auth/'
-

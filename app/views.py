@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponseRedirect
-from django import forms
+from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
 from functools import wraps
 import os
 import tempfile
@@ -24,13 +24,18 @@ def admin_required(view_func):
     return wrapper
 
 class CustomLoginForm(AuthenticationForm):
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         if username and password:
-            user = User.objects.filter(username=username).first()
-            if not user or not bcrypt.checkpw(password.encode(), user.hashed_password.encode()):
-                raise forms.ValidationError('Invalid credentials', code='invalid')
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise self.get_invalid_login_error()
+            else:
+                self.confirm_login_allowed(self.user_cache)
         return self.cleaned_data
 
 @admin_required
@@ -147,7 +152,7 @@ def complete(request, item_type, item_id):
         exercise = Exercise.objects.filter(id=item_id).first()
         if not exercise:
             return JsonResponse({'detail': 'Exercise not found'}, status=404)
-        request.user.points += exercise.points
+        request.user.points += section.points
     elif item_type == 'course':
         course = Course.objects.filter(id=item_id).first()
         if not course:
@@ -215,7 +220,7 @@ def course(request, course_id):
             if ('section', section.id) not in completed_items:
                 all_items_completed = False
                 break
-        if module.exercise.first() and ('exercise', module.exercise.first().id) not in completed_items:
+        if module.exercise.first() and ('exercise', module.exercise.first.id) not in completed_items:
             all_items_completed = False
         if not all_items_completed:
             break
