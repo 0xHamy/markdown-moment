@@ -12,9 +12,10 @@ import shutil
 import yaml
 import base64
 import markdown
-import bcrypt
+import bcrypt, json
 from .models import Course, Module, Section, Exercise, User, Completion
 from django.views.decorators.http import require_POST
+
 
 def admin_required(view_func):
     @wraps(view_func)
@@ -49,6 +50,7 @@ class CustomLoginForm(AuthenticationForm):
                 self.confirm_login_allowed(self.user_cache)
         return self.cleaned_data
 
+
 @admin_required
 def upload_page(request):
     if request.method == 'POST':
@@ -56,53 +58,97 @@ def upload_page(request):
         if not file.name.endswith('.zip'):
             messages.error(request, 'Please upload a .zip file')
             return render(request, 'upload.html')
+
         with tempfile.TemporaryDirectory() as temp_dir:
+            # Save and extract ZIP
             zip_path = os.path.join(temp_dir, 'course.zip')
             with open(zip_path, 'wb') as buffer:
                 shutil.copyfileobj(file, buffer)
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall(temp_dir)
-            course_dir = os.path.join(temp_dir, os.listdir(temp_dir)[0])
-            course_yaml = os.path.join(course_dir, 'course.yaml')
-            creator_yaml = os.path.join(course_dir, 'creator.yaml')
-            if not os.path.exists(course_yaml) or not os.path.exists(creator_yaml):
-                messages.error(request, 'Missing course.yaml or creator.yaml')
+
+            # Files are at the root of temp_dir
+            course_dir = temp_dir
+
+            # Parse course_intro.yaml
+            intro_yaml_path = os.path.join(course_dir, 'course_intro.yaml')
+            if not os.path.exists(intro_yaml_path):
+                messages.error(request, 'Missing course_intro.yaml')
                 return render(request, 'upload.html')
-            with open(course_yaml, 'r') as f:
-                course_data = yaml.safe_load(f)
-            with open(creator_yaml, 'r') as f:
-                creator_data = yaml.dump(yaml.safe_load(f))
-            course_yaml_id = course_data['course']['id']
+            with open(intro_yaml_path, 'r') as f:
+                intro_data = yaml.safe_load(f)
+
+            # Parse course_structure.yaml
+            structure_yaml_path = os.path.join(course_dir, 'course_structure.yaml')
+            if not os.path.exists(structure_yaml_path):
+                messages.error(request, 'Missing course_structure.yaml')
+                return render(request, 'upload.html')
+            with open(structure_yaml_path, 'r') as f:
+                structure_data = yaml.safe_load(f)
+
+            # Load and encode course_info.md
+            info_md_path = os.path.join(course_dir, 'course_info.md')
+            if not os.path.exists(info_md_path):
+                messages.error(request, 'Missing course_info.md')
+                return render(request, 'upload.html')
+            with open(info_md_path, 'r') as f:
+                overview_content = f.read()
+            overview_b64 = base64.b64encode(overview_content.encode()).decode()
+
+            # Check for duplicate course
+            course_yaml_id = structure_data['course']['id']  # e.g., "en_pe_course"
             if Course.objects.filter(yaml_id=course_yaml_id).exists():
                 messages.error(request, f"Course with ID {course_yaml_id} already exists")
                 return render(request, 'upload.html')
+
+            # Handle badge filename (correcting possible typo 'bagde')
+            badge_key = 'badge' if 'badge' in intro_data else 'bagde'
+            badge_filename = os.path.basename(intro_data.get(badge_key, ''))
+            badge_path = f"/Uploads/{course_yaml_id}/media/{badge_filename}" if badge_filename else None
+
+            # Create Course
             course = Course.objects.create(
-                id=Course.objects.count() + 1,
                 yaml_id=course_yaml_id,
-                title=course_data['course']['title'],
-                points=course_data['course']['points'],
-                creator_info=creator_data
+                title=intro_data['title'],
+                points=structure_data['course']['points'],
+                badge=badge_path,
+                short_description=intro_data['short_description'],
+                version=intro_data['version'],
+                duration=intro_data['duration'],
+                difficulty=intro_data['difficulty'],
+                language=intro_data['language'],
+                course_type=intro_data['type'],  # Updated to course_type
+                level=intro_data['level'],
+                topics=json.dumps(intro_data['topics']),
+                overview=overview_b64
             )
+
+            # Move media files
             media_src = os.path.join(course_dir, 'media')
-            media_dest = os.path.join('app', 'static', 'media', course_yaml_id)
+            media_dest = os.path.join('app', 'static', 'Uploads', course_yaml_id, 'media')
             if os.path.exists(media_src):
                 shutil.copytree(media_src, media_dest, dirs_exist_ok=True)
-            for idx, mod in enumerate(course_data['course']['modules']):
+
+            # Process modules, sections, and exercises
+            for idx, mod in enumerate(structure_data['course']['modules']):
                 module = Module.objects.create(
-                    id=Module.objects.count() + 1,
                     course=course,
                     yaml_id=mod['id'],
                     title=mod['title'],
+                    description=mod.get('description', ''),
                     points=mod['points'],
                     order=idx
                 )
                 for s_idx, sec in enumerate(mod['sections']):
-                    with open(os.path.join(course_dir, sec['file']), 'r') as f:
+                    section_file = os.path.join(course_dir, sec['file'])
+                    if not os.path.exists(section_file):
+                        messages.error(request, f"Section file {sec['file']} not found")
+                        return render(request, 'upload.html')
+                    with open(section_file, 'r') as f:
                         content = f.read()
-                    content = content.replace('../media/', f'/static/media/{course_yaml_id}/')
+                    content = content.replace('../media/', f'/static/uploads/{course_yaml_id}/media/')
                     content_b64 = base64.b64encode(content.encode()).decode()
                     Section.objects.create(
-                        id=Section.objects.count() + 1,
                         module=module,
                         yaml_id=sec['id'],
                         title=sec['title'],
@@ -111,20 +157,27 @@ def upload_page(request):
                         order=s_idx
                     )
                 if 'exercise' in mod:
-                    with open(os.path.join(course_dir, mod['exercise']['file']), 'r') as f:
+                    exercise_file = os.path.join(course_dir, mod['exercise']['file'])
+                    if not os.path.exists(exercise_file):
+                        messages.error(request, f"Exercise file {mod['exercise']['file']} not found")
+                        return render(request, 'upload.html')
+                    with open(exercise_file, 'r') as f:
                         content = f.read()
-                    content = content.replace('../media/', f'/static/media/{course_yaml_id}/')
+                    content = content.replace('../media/', f'/static/uploads/{course_yaml_id}/media/')
                     content_b64 = base64.b64encode(content.encode()).decode()
                     Exercise.objects.create(
-                        id=Exercise.objects.count() + 1,
                         module=module,
                         content=content_b64,
                         points=mod['exercise']['points']
                     )
+
             messages.success(request, 'Course uploaded successfully')
-            return redirect('app:upload_page')
+            return redirect('upload_page')
+
     messages_list = [msg.message for msg in messages.get_messages(request)]
     return render(request, 'upload.html', {'messages': messages_list})
+
+
 
 def register(request):
     if request.method == 'POST':
