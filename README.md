@@ -20,7 +20,7 @@
 # Todo
 - [X] Convert the whole code to FastAPI
 - [X] Ensure all pages, backend code and logic works properly 
-- [ ] Transition to PostgreSQL database
+- [X] Transition to PostgreSQL database
 - [ ] Integrate course_info.md (all of this content is saved as base64 and displayed)
 - [ ] Integrate course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
 - [ ] Integrate course_structure.yaml for structure of modules, sections & exercises
@@ -32,7 +32,7 @@
 - [ ] Create account deletion page; disable it for admin 
 - [X] Before login should only sign up / sign in forms 
 - [X] Restrict course uploading to a specific user (e.g. admin)
-	- [ ] Test it again
+	- [X] Test it again
 
 ---
 
