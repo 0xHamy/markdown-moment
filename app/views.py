@@ -172,7 +172,7 @@ def upload_page(request):
                     )
 
             messages.success(request, 'Course uploaded successfully')
-            return redirect('upload_page')
+            return redirect('app:upload_page')
 
     messages_list = [msg.message for msg in messages.get_messages(request)]
     return render(request, 'upload.html', {'messages': messages_list})

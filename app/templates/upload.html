@@ -3,15 +3,6 @@
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6">
     <h1 class="text-3xl font-bold text-gray-100 mb-6">Upload a Course</h1>
-    {% if messages %}
-    <div class="mb-4">
-        {% for message in messages %}
-        <div class="{% if message.tags == 'success' %}bg-green-900 border-l-4 border-green-500 text-green-100{% else %}bg-red-900 border-l-4 border-red-500 text-red-100{% endif %} p-4 mb-2" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
     <form method="post" action="{% url 'app:upload_page' %}" enctype="multipart/form-data" class="space-y-6">
         {% csrf_token %}
         <div>
