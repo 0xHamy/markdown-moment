@@ -1,5 +1,5 @@
 course:
-  id: "pe_course"
+  id: "en_pe_course"
   title: "Privilege Escalation"
   points: 100
   modules:

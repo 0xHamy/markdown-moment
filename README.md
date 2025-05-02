@@ -21,12 +21,13 @@
 - [X] Convert the whole code to FastAPI
 - [X] Ensure all pages, backend code and logic works properly 
 - [X] Transition to PostgreSQL database
-- [ ] Integrate course_info.md (all of this content is saved as base64 and displayed)
-- [ ] Integrate course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
-- [ ] Integrate course_structure.yaml for structure of modules, sections & exercises
+- [X] Create backend for saving all data into db
+- [X] Integrate course_info.md (all of this content is saved as base64 and displayed)
+- [X] Integrate course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
+- [X] Integrate course_structure.yaml for structure of modules, sections & exercises
 - [X] Create login, register, logout with usernames alone (for testing)
 - [X] Create admin user
-	- [ ] Show a different area for admins when they login, for example course upload is only visible to admins 
+	- [X] Show a different area for admins when they login, for example course upload is only visible to admins 
 - [ ] add strict cookies & auth token that expires quickly after use 
 - [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
 - [X] Create account deletion page; disable it for admin 
@@ -35,9 +36,6 @@
 	- [X] Test it again
 - [ ] Make the navbar responsive; burger icons don't work on small screens 
 - [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
-
----
-
 - [ ] When doing a section, the sidebar should only show chapters & sections for that module
 	- [ ] Each module can be done any time and they will have its own progress bar that will show on course review page 
 - [ ] Horizontal course card must have info from course_intro.yaml && two buttons, one to show "Course Information" and another one to "View course"
@@ -48,6 +46,10 @@
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
 	- [ ] Create the same course in French
 	- [ ] Ensure it works 
+- [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
+
+---
+
 - [ ] Add logs for all actions 
 - [ ] Add strict CSP rules & localize everything 
 - [ ] Add appropriate messages for when you finish courses & stuff
@@ -55,7 +57,6 @@
 - [ ] Create visual profiles, progress bar for all courses, progress and badges for user
 - [ ] Add a badges sections for the badges you earn when you complete a course 
 - [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
-- [ ] Create overview page for every course, this will contain contents of creator.yaml in a very beautified manner
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
 - [ ] The container moves to the left while viewing a section, fix that
 - [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
