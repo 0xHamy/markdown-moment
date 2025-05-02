@@ -1,6 +1,6 @@
 course:
-  id: "mycyber"
-  title: "MyCyber Course"
+  id: "pe_course"
+  title: "Privilege Escalation"
   points: 100
   modules:
     - id: "module1"
