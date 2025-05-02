@@ -3,14 +3,10 @@
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6 max-w-md mx-auto">
     <h1 class="text-3xl font-bold text-gray-100 mb-6 text-center">Login / Register</h1>
-    
-    <!-- Tabs -->
     <div class="flex mb-4">
         <button id="login-tab" class="flex-1 py-2 text-center text-gray-100 bg-gray-700 rounded-l-md hover:bg-gray-600">Login</button>
         <button id="register-tab" class="flex-1 py-2 text-center text-gray-100 bg-gray-600 rounded-r-md hover:bg-gray-600">Register</button>
     </div>
-
-    <!-- Login Form -->
     <form id="login-form" method="post" action="{% url 'app:login' %}">
         {% csrf_token %}
         <div class="space-y-4">
@@ -25,8 +21,6 @@
             <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Login</button>
         </div>
     </form>
-
-    <!-- Register Form -->
     <form id="register-form" method="post" action="{% url 'app:register' %}" class="hidden">
         {% csrf_token %}
         <div class="space-y-4">
@@ -41,17 +35,14 @@
             <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Register</button>
         </div>
     </form>
-
     <div id="auth-message" class="mt-4 text-center text-red-400 hidden"></div>
 </div>
 {% endblock %}
-
 {% block scripts %}
 {{ block.super }}
 <script>
 jQuery(document).ready(function($) {
     console.log('Document ready in auth.html, binding tab events');
-    
     $('#login-tab').click(function(e) {
         console.log('Login tab clicked');
         e.preventDefault();
@@ -61,7 +52,6 @@ jQuery(document).ready(function($) {
         $('#register-tab').removeClass('bg-gray-700').addClass('bg-gray-600');
         $('#auth-message').addClass('hidden').text('');
     });
-
     $('#register-tab').click(function(e) {
         console.log('Register tab clicked');
         e.preventDefault();

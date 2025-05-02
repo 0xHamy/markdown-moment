@@ -2,7 +2,16 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Welcome, {{ user.username }}!</h1>
+    <h1 class="text-3xl font-bold mb-6">Welcome, {{ request.user.username }}!</h1>
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="{% if message.tags == 'success' %}bg-green-900 border-l-4 border-green-500 text-green-100{% else %}bg-red-900 border-l-4 border-red-500 text-red-100{% endif %} p-4 mb-2" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <p class="text-gray-300 mb-4">
         We're thrilled to have you here at MyCyber Courses! Dive into our exciting courses to expand your knowledge and earn points.
     </p>

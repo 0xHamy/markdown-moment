@@ -5,63 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - MyCyber Courses</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Highlight.js CSS (Atom One Dark) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <!-- Custom styles -->
     <style>
-        /* Global scrollbar styles */
-        *::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        *::-webkit-scrollbar-thumb {
-            background-color: #9da9bb;
-            border-radius: 4px;
-        }
-        *::-webkit-scrollbar-track {
-            background-color: #1f2937;
-        }
-        .sidebar, .mobile-menu {
-            transition: transform 0.3s ease-in-out;
-        }
-        .sidebar-hidden {
-            transform: translateX(-100%);
-        }
-        .mobile-menu-hidden {
-            transform: translateX(100%);
-        }
-        main {
-            overflow-x: hidden;
-        }
-        .prose img, .prose table {
-            max-width: 100%;
-            height: auto;
-            overflow-x: auto;
-        }
-        .prose pre {
-            white-space: pre;
-            overflow-x: auto;
-            padding: 1rem;
-            border-radius: 0.375rem;
-        }
-        .prose table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        .prose {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
+        *::-webkit-scrollbar { width: 8px; height: 8px; }
+        *::-webkit-scrollbar-thumb { background-color: #9da9bb; border-radius: 4px; }
+        *::-webkit-scrollbar-track { background-color: #1f2937; }
+        .sidebar, .mobile-menu { transition: transform 0.3s ease-in-out; }
+        .sidebar-hidden { transform: translateX(-100%); }
+        .mobile-menu-hidden { transform: translateX(100%); }
+        main { overflow-x: hidden; }
+        .prose img, .prose table { max-width: 100%; height: auto; overflow-x: auto; }
+        .prose pre { white-space: pre; overflow-x: auto; padding: 1rem; border-radius: 0.375rem; }
+        .prose table { display: block; overflow-x: auto; white-space: nowrap; }
+        .prose { max-width: 100%; overflow-x: hidden; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
-    <!-- Top Navbar -->
     <nav class="fixed top-0 left-0 w-full bg-gray-800 shadow-lg z-50">
         <div class="flex justify-between items-center px-4 py-3 max-w-7xl mx-auto">
-            <!-- Logo and Sidebar Toggle -->
             <div class="flex items-center space-x-4">
                 {% if has_sidebar %}
                 <button class="md:hidden focus:outline-none sidebar-toggle">
@@ -72,22 +34,20 @@
                 {% endif %}
                 <a href="{% url 'app:courses' %}" class="text-xl font-bold text-white">MyCyber</a>
             </div>
-            <!-- Navigation Links (hidden on mobile) -->
             <div class="hidden md:flex items-center space-x-4">
-                {% if user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                 <a href="{% url 'app:courses' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
-                {% if user.is_admin %}
+                {% if request.user.is_admin %}
                 <a href="{% url 'app:upload_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
                 {% endif %}
                 <a href="{% url 'app:dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
                 <a href="{% url 'app:profile' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
-                <span class="text-sm text-gray-300">{{ user.username }}</span>
+                <span class="text-sm text-gray-300">{{ request.user.username }}</span>
                 <a href="{% url 'app:logout' %}" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</a>
                 {% else %}
                 <a href="{% url 'app:auth_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
                 {% endif %}
             </div>
-            <!-- Mobile Menu Button -->
             <button class="md:hidden focus:outline-none mobile-menu-button">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -95,11 +55,10 @@
             </button>
         </div>
     </nav>
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-64px)] bg-gray-800 px-4 py-2 z-40 mobile-menu mobile-menu-hidden">
-        {% if user.is_authenticated %}
+        {% if request.user.is_authenticated %}
         <a href="{% url 'app:courses' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
-        {% if user.is_admin %}
+        {% if request.user.is_admin %}
         <a href="{% url 'app:upload_page' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
         {% endif %}
         <a href="{% url 'app:dashboard' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
@@ -109,8 +68,6 @@
         <a href="{% url 'app:auth_page' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>
         {% endif %}
     </div>
-
-    <!-- Main Content -->
     <div class="flex flex-1 mt-16 max-w-7xl mx-auto w-full">
         {% if has_sidebar %}
         {% block sidebar %}{% endblock %}
@@ -120,7 +77,7 @@
                 {% if messages %}
                 <div class="mb-4">
                     {% for message in messages %}
-                    <div class="bg-red-900 border-l-4 border-red-500 text-red-100 p-4 mb-2" role="alert">
+                    <div class="{% if message.tags == 'success' %}bg-green-900 border-l-4 border-green-500 text-green-100{% else %}bg-red-900 border-l-4 border-red-500 text-red-100{% endif %} p-4 mb-2" role="alert">
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -130,36 +87,27 @@
             </div>
         </main>
     </div>
-
-    <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <!-- Highlight.js JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <!-- Base scripts -->
     {% block scripts %}
     <script>
         jQuery(document).ready(function($) {
-            // Mobile Menu Toggle
             $('.mobile-menu-button').click(function(e) {
                 e.stopPropagation();
                 $('#mobile-menu').toggleClass('mobile-menu-hidden');
             });
-
-            // Sidebar Toggle
             {% if has_sidebar %}
             $('.sidebar-toggle').click(function(e) {
                 e.stopPropagation();
                 $('#sidebar').toggleClass('sidebar-hidden');
                 $('main').toggleClass('md:ml-64');
             });
-
             $(document).click(function(e) {
                 if (!$(e.target).closest('.sidebar-toggle, #sidebar').length) {
                     $('#sidebar').addClass('sidebar-hidden');
                     $('main').removeClass('md:ml-64');
                 }
             });
-
             if ($(window).width() >= 768) {
                 $('#sidebar').removeClass('sidebar-hidden');
                 $('main').addClass('md:ml-64');
@@ -167,7 +115,6 @@
                 $('#sidebar').addClass('sidebar-hidden');
                 $('main').removeClass('md:ml-64');
             }
-
             $(window).resize(function() {
                 if ($(window).width() >= 768) {
                     $('#sidebar').removeClass('sidebar-hidden');
@@ -178,8 +125,6 @@
                 }
             });
             {% endif %}
-
-            // Highlight.js
             hljs.highlightAll();
         });
     </script>

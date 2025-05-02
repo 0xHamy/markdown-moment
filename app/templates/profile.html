@@ -2,22 +2,26 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6">
-    <!-- Profile Header -->
     <h1 class="text-3xl font-bold text-gray-100 mb-4">User Profile</h1>
-
-    <!-- Profile Details -->
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="{% if message.tags == 'success' %}bg-green-900 border-l-4 border-green-500 text-green-100{% else %}bg-red-900 border-l-4 border-red-500 text-red-100{% endif %} p-4 mb-2" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="space-y-4">
         <div>
             <h2 class="text-xl font-semibold text-gray-100">Username</h2>
-            <p class="text-gray-300">{{ user.username }}</p>
+            <p class="text-gray-300">{{ request.user.username }}</p>
         </div>
         <div>
             <h2 class="text-xl font-semibold text-gray-100">Total Score</h2>
-            <p class="text-gray-300">{{ user.points }} points</p>
+            <p class="text-gray-300">{{ request.user.points }} points</p>
         </div>
     </div>
-
-    <!-- Back Button -->
     <div class="mt-6">
         <a href="{% url 'app:courses' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
             Back to Courses
