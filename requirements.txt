@@ -4,3 +4,4 @@ django==5.0.*
 pyyaml
 markdown
 bcrypt
+psycopg2-binary
