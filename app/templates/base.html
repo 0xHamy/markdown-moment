@@ -43,7 +43,10 @@
                 <a href="{% url 'app:dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
                 <a href="{% url 'app:profile' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
                 <span class="text-sm text-gray-300">{{ request.user.username }}</span>
-                <a href="{% url 'app:logout' %}" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</a>
+                <form action="{% url 'app:logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</button>
+                </form>
                 {% else %}
                 <a href="{% url 'app:auth_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
                 {% endif %}
@@ -63,7 +66,10 @@
         {% endif %}
         <a href="{% url 'app:dashboard' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
         <a href="{% url 'app:profile' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
-        <a href="{% url 'app:logout' %}" id="mobile-logout-btn" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</a>
+        <form action="{% url 'app:logout' %}" method="post" class="block">
+            {% csrf_token %}
+            <button type="submit" id="mobile-logout-btn" class="w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</button>
+        </form>
         {% else %}
         <a href="{% url 'app:auth_page' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>
         {% endif %}

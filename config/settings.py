@@ -88,3 +88,5 @@ AUTHENTICATION_BACKENDS = [
     'app.auth.CustomAuthBackend',
 ]
 LOGIN_URL = '/academy/auth/'
+LOGIN_REDIRECT_URL = '/academy/dashboard/'
+LOGOUT_REDIRECT_URL = '/academy/auth/'
