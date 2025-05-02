@@ -343,12 +343,10 @@ def delete_account(request):
 
     if not confirmation:
         return JsonResponse({'detail': 'Confirmation text incorrect.'}, status=400)
-
-    # verify password (bcrypt hash stored in user.hashed_password)
+        
     if not bcrypt.checkpw(password.encode(), request.user.hashed_password.encode()):
         return JsonResponse({'detail': 'Password incorrect.'}, status=400)
 
-    # cascade deletes of Completion, etc.
     user = request.user
     logout(request)
     user.delete()
