@@ -5,6 +5,7 @@ from . import views
 app_name = 'app'
 
 urlpatterns = [
+    path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/courses/upload/', views.upload_page, name='upload_page'),
     path('academy/login/', LoginView.as_view(template_name='auth.html', authentication_form=views.CustomLoginForm), name='login'),
     path('academy/logout/', LogoutView.as_view(next_page='app:auth_page'), name='logout'),

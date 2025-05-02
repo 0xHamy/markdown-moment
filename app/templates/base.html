@@ -32,23 +32,25 @@
                     </svg>
                 </button>
                 {% endif %}
-                <a href="{% url 'app:courses' %}" class="text-xl font-bold text-white">MyCyber</a>
+                <a href="{% if request.user.is_admin %}{% url 'app:admin_dashboard' %}{% else %}{% url 'app:courses' %}{% endif %}" class="text-xl font-bold text-white">MyCyber</a>
             </div>
             <div class="hidden md:flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'app:courses' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
-                {% if request.user.is_admin %}
-                <a href="{% url 'app:upload_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
-                {% endif %}
-                <a href="{% url 'app:dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
-                <a href="{% url 'app:profile' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
-                <span class="text-sm text-gray-300">{{ request.user.username }}</span>
-                <form action="{% url 'app:logout' %}" method="post" class="inline">
-                    {% csrf_token %}
-                    <button type="submit" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</button>
-                </form>
+                    {% if request.user.is_admin %}
+                        <a href="{% url 'app:admin_dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                        <a href="{% url 'app:upload_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
+                    {% else %}
+                        <a href="{% url 'app:courses' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
+                        <a href="{% url 'app:dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                        <a href="{% url 'app:profile' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
+                    {% endif %}
+                    <span class="text-sm text-gray-300">{{ request.user.username }}</span>
+                    <form action="{% url 'app:logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</button>
+                    </form>
                 {% else %}
-                <a href="{% url 'app:auth_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
+                    <a href="{% url 'app:auth_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
                 {% endif %}
             </div>
             <button class="md:hidden focus:outline-none mobile-menu-button">
@@ -58,20 +60,23 @@
             </button>
         </div>
     </nav>
-    <div id="mobile-menu" class="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-64px)] bg-gray-800 px-4 py-2 z-40 mobile-menu mobile-menu-hidden">
+    <div class="hidden md:flex items-center space-x-4">
         {% if request.user.is_authenticated %}
-        <a href="{% url 'app:courses' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Courses</a>
-        {% if request.user.is_admin %}
-        <a href="{% url 'app:upload_page' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Upload Course</a>
-        {% endif %}
-        <a href="{% url 'app:dashboard' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Dashboard</a>
-        <a href="{% url 'app:profile' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Profile</a>
-        <form action="{% url 'app:logout' %}" method="post" class="block">
-            {% csrf_token %}
-            <button type="submit" id="mobile-logout-btn" class="w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Logout</button>
-        </form>
+            {% if request.user.is_admin %}
+                <a href="{% url 'app:admin_dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                <a href="{% url 'app:upload_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Upload Course</a>
+            {% else %}
+                <a href="{% url 'app:courses' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Courses</a>
+                <a href="{% url 'app:dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Dashboard</a>
+                <a href="{% url 'app:profile' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Profile</a>
+            {% endif %}
+            <span class="text-sm text-gray-300">{{ request.user.username }}</span>
+            <form action="{% url 'app:logout' %}" method="post" class="inline">
+                {% csrf_token %}
+                <button type="submit" id="logout-btn" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Logout</button>
+            </form>
         {% else %}
-        <a href="{% url 'app:auth_page' %}" class="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-700">Login/Register</a>
+            <a href="{% url 'app:auth_page' %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-100 hover:bg-gray-700">Login/Register</a>
         {% endif %}
     </div>
     <div class="flex flex-1 mt-16 max-w-7xl mx-auto w-full">

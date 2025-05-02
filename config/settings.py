@@ -1,4 +1,3 @@
-# config/settings.py
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,5 +87,6 @@ AUTHENTICATION_BACKENDS = [
     'app.auth.CustomAuthBackend',
 ]
 LOGIN_URL = '/academy/auth/'
-LOGIN_REDIRECT_URL = '/academy/dashboard/'
+LOGIN_REDIRECT_URL = '/academy/dashboard/' 
+ADMIN_LOGIN_URL = '/academy/auth/' 
 LOGOUT_REDIRECT_URL = '/academy/auth/'

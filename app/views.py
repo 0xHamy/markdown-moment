@@ -18,8 +18,18 @@ from .models import Course, Module, Section, Exercise, User, Completion
 def admin_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_admin:
+        if not request.user.is_authenticated:
             return redirect('app:auth_page')
+        if not request.user.is_admin:
+            return redirect('app:dashboard')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+def non_admin_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_admin:
+            return redirect('app:admin_dashboard')
         return view_func(request, *args, **kwargs)
     return wrapper
 
@@ -134,6 +144,7 @@ def register(request):
     return render(request, 'auth.html')
 
 @login_required
+@non_admin_required
 def complete(request, item_type, item_id):
     if item_type not in ['section', 'exercise', 'course']:
         return JsonResponse({'detail': 'Invalid item type'}, status=400)
@@ -152,7 +163,7 @@ def complete(request, item_type, item_id):
         exercise = Exercise.objects.filter(id=item_id).first()
         if not exercise:
             return JsonResponse({'detail': 'Exercise not found'}, status=404)
-        request.user.points += section.points
+        request.user.points += exercise.points
     elif item_type == 'course':
         course = Course.objects.filter(id=item_id).first()
         if not course:
@@ -188,6 +199,7 @@ def complete(request, item_type, item_id):
     return JsonResponse({'message': 'Completion recorded'})
 
 @login_required
+@non_admin_required
 def courses(request):
     courses = Course.objects.all()
     messages_list = [msg.message for msg in messages.get_messages(request)]
@@ -197,6 +209,7 @@ def courses(request):
     })
 
 @login_required
+@non_admin_required
 def dashboard(request):
     messages_list = [msg.message for msg in messages.get_messages(request)]
     return render(request, 'dashboard.html', {
@@ -205,6 +218,7 @@ def dashboard(request):
     })
 
 @login_required
+@non_admin_required
 def course(request, course_id):
     course = Course.objects.filter(id=course_id).first()
     if not course:
@@ -237,6 +251,7 @@ def course(request, course_id):
     })
 
 @login_required
+@non_admin_required
 def section(request, section_id):
     section = Section.objects.filter(id=section_id).first()
     if not section:
@@ -265,6 +280,7 @@ def section(request, section_id):
     })
 
 @login_required
+@non_admin_required
 def exercise(request, exercise_id):
     exercise = Exercise.objects.filter(id=exercise_id).first()
     if not exercise:
@@ -293,6 +309,7 @@ def exercise(request, exercise_id):
     })
 
 @login_required
+@non_admin_required
 def profile(request):
     messages_list = [msg.message for msg in messages.get_messages(request)]
     return render(request, 'profile.html', {
@@ -303,5 +320,15 @@ def profile(request):
 
 def auth_page(request):
     if request.user.is_authenticated:
+        if request.user.is_admin:
+            return redirect('app:admin_dashboard')
         return redirect('app:dashboard')
     return render(request, 'auth.html')
+
+@admin_required
+def admin_dashboard(request):
+    messages_list = [msg.message for msg in messages.get_messages(request)]
+    return render(request, 'admin_dashboard.html', {
+        'username': request.user.username,
+        'messages': messages_list
+    })

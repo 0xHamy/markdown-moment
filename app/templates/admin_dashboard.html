@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Welcome, {{ request.user.username }}!</h1>
+    <p class="text-gray-300 mb-4">
+        Manage courses and content from this dashboard.
+    </p>
+    <a href="{% url 'app:upload_page' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Upload Course</a>
+</div>
+{% endblock %}
