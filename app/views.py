@@ -32,7 +32,7 @@ def upload_page(request):
         file = request.FILES.get('file')
         if not file.name.endswith('.zip'):
             messages.error(request, 'Please upload a .zip file')
-            return render(request, 'app/upload.html')
+            return render(request, 'upload.html')
         
         with tempfile.TemporaryDirectory() as temp_dir:
             zip_path = os.path.join(temp_dir, 'course.zip')
@@ -47,7 +47,7 @@ def upload_page(request):
             
             if not os.path.exists(course_yaml) or not os.path.exists(creator_yaml):
                 messages.error(request, 'Missing course.yaml or creator.yaml')
-                return render(request, 'app/upload.html')
+                return render(request, 'upload.html')
             
             with open(course_yaml, 'r') as f:
                 course_data = yaml.safe_load(f)
@@ -57,7 +57,7 @@ def upload_page(request):
             course_yaml_id = course_data['course']['id']
             if Course.objects.filter(yaml_id=course_yaml_id).exists():
                 messages.error(request, f"Course with ID {course_yaml_id} already exists")
-                return render(request, 'app/upload.html')
+                return render(request, 'upload.html')
             
             course = Course.objects.create(
                 id=Course.objects.count() + 1,
@@ -113,7 +113,7 @@ def upload_page(request):
             return redirect('upload_page')
     
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/upload.html', {'messages': messages_list, 'current_user': request.user})
+    return render(request, 'upload.html', {'messages': messages_list, 'current_user': request.user})
 
 def register(request):
     if request.method == 'POST':
@@ -121,7 +121,7 @@ def register(request):
         password = request.POST.get('password')
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already registered')
-            return render(request, 'app/auth.html')
+            return render(request, 'auth.html')
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         user = User.objects.create(
             id=User.objects.count() + 1,
@@ -131,7 +131,7 @@ def register(request):
         )
         messages.success(request, 'User registered successfully')
         return redirect('login')
-    return render(request, 'app/auth.html')
+    return render(request, 'auth.html')
 
 @login_required
 def complete(request, item_type, item_id):
@@ -198,7 +198,7 @@ def complete(request, item_type, item_id):
 def courses(request):
     courses = Course.objects.all()
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/courses.html', {
+    return render(request, 'courses.html', {
         'courses': courses,
         'messages': messages_list,
         'current_user': request.user
@@ -207,7 +207,7 @@ def courses(request):
 @login_required
 def dashboard(request):
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/dashboard.html', {
+    return render(request, 'dashboard.html', {
         'username': request.user.username,
         'messages': messages_list,
         'current_user': request.user
@@ -217,7 +217,7 @@ def dashboard(request):
 def course(request, course_id):
     course = Course.objects.filter(id=course_id).first()
     if not course:
-        return render(request, 'app/404.html', status=404)
+        return render(request, '404.html', status=404)
     modules = Module.objects.filter(course_id=course_id).order_by('order')
     creator_info = yaml.safe_load(course.creator_info)
     
@@ -238,7 +238,7 @@ def course(request, course_id):
     can_complete_course = all_items_completed and not course_completed
     
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/course.html', {
+    return render(request, 'course.html', {
         'course': course,
         'modules': modules,
         'creator_info': creator_info,
@@ -252,7 +252,7 @@ def course(request, course_id):
 def section(request, section_id):
     section = Section.objects.filter(id=section_id).first()
     if not section:
-        return render(request, 'app/404.html', status=404)
+        return render(request, '404.html', status=404)
     course = section.module.course
     modules = Module.objects.filter(course_id=course.id).order_by('order')
     content_md = base64.b64decode(section.content).decode()
@@ -267,7 +267,7 @@ def section(request, section_id):
         }
     )
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/section.html', {
+    return render(request, 'section.html', {
         'section': section,
         'course': course,
         'modules': modules,
@@ -281,7 +281,7 @@ def section(request, section_id):
 def exercise(request, exercise_id):
     exercise = Exercise.objects.filter(id=exercise_id).first()
     if not exercise:
-        return render(request, 'app/404.html', status=404)
+        return render(request, '404.html', status=404)
     course = exercise.module.course
     modules = Module.objects.filter(course_id=course.id).order_by('order')
     content_md = base64.b64decode(exercise.content).decode()
@@ -296,7 +296,7 @@ def exercise(request, exercise_id):
         }
     )
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/exercise.html', {
+    return render(request, 'exercise.html', {
         'exercise': exercise,
         'course': course,
         'modules': modules,
@@ -309,7 +309,7 @@ def exercise(request, exercise_id):
 @login_required
 def profile(request):
     messages_list = [msg.message for msg in messages.get_messages(request)]
-    return render(request, 'app/profile.html', {
+    return render(request, 'profile.html', {
         'username': request.user.username,
         'total_score': request.user.points,
         'messages': messages_list,
@@ -319,5 +319,5 @@ def profile(request):
 def auth_page(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('/app/academy/dashboard/')
-    return render(request, 'app/auth.html')
+    return render(request, 'auth.html')
 
