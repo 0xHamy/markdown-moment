@@ -33,7 +33,8 @@
 - [X] Before login should only sign up / sign in forms 
 - [X] Restrict course uploading to a specific user (e.g. admin)
 	- [X] Test it again
-- [ ] Make the navbar responsive 
+- [ ] Make the navbar responsive; burger icons don't work on small screens 
+- [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
 
 ---
 
