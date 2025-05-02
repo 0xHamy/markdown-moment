@@ -19,7 +19,7 @@
 
 # Todo
 - [X] Convert the whole code to FastAPI
-- [ ] Ensure all pages, backend code and logic works properly 
+- [X] Ensure all pages, backend code and logic works properly 
 - [ ] Transition to PostgreSQL database
 - [ ] Integrate course_info.md (all of this content is saved as base64 and displayed)
 - [ ] Integrate course.yaml for information displayed on horizontal cards; this same info will be inside course_info.md but formatted 
