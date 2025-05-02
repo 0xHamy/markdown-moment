@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from functools import wraps
 import os
 import tempfile
@@ -14,6 +14,7 @@ import base64
 import markdown
 import bcrypt
 from .models import Course, Module, Section, Exercise, User, Completion
+from django.views.decorators.http import require_POST
 
 def admin_required(view_func):
     @wraps(view_func)
@@ -332,3 +333,25 @@ def admin_dashboard(request):
         'username': request.user.username,
         'messages': messages_list
     })
+
+@login_required
+@non_admin_required
+@require_POST
+def delete_account(request):
+    password = request.POST.get('password', '')
+    confirmation = request.POST.get('confirmation', '').lower() == 'delete'
+
+    if not confirmation:
+        return JsonResponse({'detail': 'Confirmation text incorrect.'}, status=400)
+
+    # verify password (bcrypt hash stored in user.hashed_password)
+    if not bcrypt.checkpw(password.encode(), request.user.hashed_password.encode()):
+        return JsonResponse({'detail': 'Password incorrect.'}, status=400)
+
+    # cascade deletes of Completion, etc.
+    user = request.user
+    logout(request)
+    user.delete()
+
+    return JsonResponse({'redirect':  redirect('app:auth_page').url})
+

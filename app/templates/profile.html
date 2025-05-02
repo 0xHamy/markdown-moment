@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
+
 {% block content %}
 <div class="bg-gray-800 shadow-lg rounded-lg p-6">
     <h1 class="text-3xl font-bold text-gray-100 mb-4">User Profile</h1>
+
     {% if messages %}
     <div class="mb-4">
         {% for message in messages %}
@@ -12,6 +14,7 @@
         {% endfor %}
     </div>
     {% endif %}
+
     <div class="space-y-4">
         <div>
             <h2 class="text-xl font-semibold text-gray-100">Username</h2>
@@ -22,10 +25,102 @@
             <p class="text-gray-300">{{ request.user.points }} points</p>
         </div>
     </div>
-    <div class="mt-6">
-        <a href="{% url 'app:courses' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+
+    <div class="mt-6 flex flex-col md:flex-row gap-4">
+        <a href="{% url 'app:courses' %}"
+           class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
             Back to Courses
         </a>
+
+        <!-- Delete‑account button -->
+        <button id="open-delete-modal"
+                class="inline-block bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 transition">
+            Delete My Account
+        </button>
     </div>
 </div>
+
+<!-- ───────────────── Delete‑account Modal ───────────────── -->
+<div id="delete-modal" class="fixed inset-0 flex items-center justify-center bg-black/60 hidden z-50">
+    <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md">
+        <h2 class="text-2xl font-bold text-red-400 mb-4">Delete Account</h2>
+        <p class="text-gray-300 mb-4">
+            This action <span class="font-semibold text-red-500">cannot be undone</span>.  
+            All progress and data will be permanently removed.
+        </p>
+        <form id="delete-form" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm text-gray-100 mb-1">Password</label>
+                <input type="password" name="password" required
+                       class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-100 mb-1">
+                    Type <span class="font-semibold">DELETE</span> to confirm
+                </label>
+                <input type="text" name="confirmation" required
+                       class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none">
+            </div>
+            <div class="flex justify-end gap-3">
+                <button type="button" id="cancel-delete"
+                        class="px-4 py-2 bg-gray-600 rounded hover:bg-gray-500 text-gray-100">
+                    Cancel
+                </button>
+                <button type="submit"
+                        class="px-4 py-2 bg-red-700 rounded hover:bg-red-800 text-white">
+                    Permanently Delete
+                </button>
+            </div>
+        </form>
+        <div id="delete-error" class="text-red-400 text-sm mt-3 hidden"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+$(function () {
+    const $modal  = $('#delete-modal');
+    const $form   = $('#delete-form');
+    const $error  = $('#delete-error');
+
+    $('#open-delete-modal').on('click', () => $modal.removeClass('hidden'));
+    $('#cancel-delete').on('click', () => {
+        $modal.addClass('hidden');
+        $form.trigger('reset');
+        $error.addClass('hidden').text('');
+    });
+
+    // include CSRF in AJAX headers
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    const csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^GET|HEAD|OPTIONS|TRACE$/.test(settings.type)) {
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            }
+        }
+    });
+
+    $form.on('submit', function(e) {
+        e.preventDefault();
+        $error.addClass('hidden').text('');
+
+        $.post("{% url 'app:delete_account' %}", $form.serialize())
+            .done(function (data) {
+                window.location.href = data.redirect;
+            })
+            .fail(function (xhr) {
+                const msg = xhr.responseJSON?.detail || 'Something went wrong.';
+                $error.removeClass('hidden').text(msg);
+            });
+    });
+});
+</script>
 {% endblock %}

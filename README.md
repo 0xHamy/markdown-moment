@@ -29,10 +29,11 @@
 	- [ ] Show a different area for admins when they login, for example course upload is only visible to admins 
 - [ ] add strict cookies & auth token that expires quickly after use 
 - [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
-- [ ] Create account deletion page; disable it for admin 
+- [X] Create account deletion page; disable it for admin 
 - [X] Before login should only sign up / sign in forms 
 - [X] Restrict course uploading to a specific user (e.g. admin)
 	- [X] Test it again
+- [ ] Make the navbar responsive 
 
 ---
 

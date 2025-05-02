@@ -18,4 +18,5 @@ urlpatterns = [
     path('academy/exercise/<int:exercise_id>/', views.exercise, name='exercise'),
     path('academy/profile/', views.profile, name='profile'),
     path('academy/auth/', views.auth_page, name='auth_page'),
+    path('academy/profile/delete/', views.delete_account, name='delete_account'),
 ]
