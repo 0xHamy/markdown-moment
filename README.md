@@ -60,7 +60,7 @@
 - [ ] The container moves to the left while viewing a section, fix that
 - [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
 - [ ] When you open a section and select code of that section with mouse, the container enlarges, fix this
-
+- [ ] When adding OAuth, ensure that admin isn't affected
 
 The `course_intro.yaml` will be used to specify all of the following:
 1. Course title
