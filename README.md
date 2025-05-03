@@ -40,6 +40,8 @@
 - [ ] Viewing a module
 	- [ ] Open up the sidebar to the left, display all content with horo circle icon, fill it when a section or exercise or module is completed
 	- [ ] Every module will have an overview page that will be opened first 
+- [ ] Add video support to course; videos can uploaded just like images
+- [ ] Add custom HTML support to markdown too so that you can stylize course_intro.md
 
 ---
 
