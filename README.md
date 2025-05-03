@@ -21,6 +21,7 @@
 - [ ] add strict cookies & auth token that expires quickly after use 
 - [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
 - [ ] Make the navbar responsive; burger icons don't work on small screens 
+	- [ ] remove the sidebar from base.html and put it inside section.html 
 - [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
 - [ ] When doing a section, the sidebar should only show chapters & sections for that module
 	- [ ] Each module can be done any time and they will have its own progress bar that will show on course review page 
