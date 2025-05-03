@@ -1,18 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, logout
 from functools import wraps
-import os
-import tempfile
-import zipfile
-import shutil
-import yaml
-import base64
-import markdown
-import bcrypt, json
+import os, tempfile, zipfile, shutil, yaml, base64, markdown, bcrypt, json
 from .models import Course, Module, Section, Exercise, User, Completion
 from django.views.decorators.http import require_POST
 

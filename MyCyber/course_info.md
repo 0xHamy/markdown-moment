@@ -1,27 +1,3 @@
-# Cyber Threat Intelligence: From Forums to Frontlines
-![Deep Dive Image](./media/cti_badge.png)
-
-## Course settings
-- **Duration:** 74 hours
-- **Difficulty:** Intermediate
-- **Type:** Crash Course
-- **Course Level:** 1
-- **Course version:** 1.0.0
-- **Release date**: May 10th 2025
-
-
-## Topics discussed
-All of the following topics and more was discussed in this course:
-- Threat Intelligence
-- Digital Forensics
-- OSINT
-- Full-stack Development
-- Large Language Models
-- Fine-tuning
-- Artificial Intelligence
-
-<br><br>
-
 # Overview
 Dive into the world of cyber threat intelligence with this hands-on, 74-hour course designed to transform you into a proactive threat hunter. *Cyber Threat Intelligence - From Forums to Frontlines* guides intermediate learners through building a complete intelligence pipeline, from scraping data on simulated hacking forums (clearnet, TOR, and I2P) to leveraging AI for threat detection and delivering real-time alerts.  
 
@@ -52,7 +28,7 @@ The prerequisite are intermediate skills with all of the following technologies:
 - Docker
 - Python, FastAPI & Flask 
 - HTML, CSS
-- 
+- Basics of Unix-like systems
 
 ### Why Take This Course?  
 - **Practical Skills:** Build a fully functional threat intelligence pipeline, from scraping to alerting, using industry-standard tools.  
