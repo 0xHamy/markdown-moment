@@ -1,20 +1,56 @@
+<!-- app/templates/courses.html -->
 {% extends "base.html" %}
 {% block title %}Courses{% endblock %}
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Available Courses</h1>
+    <h1 class="text-3xl font-bold text-white mb-8">Available Courses</h1>
+    {% if messages %}
+    <div class="mb-6">
+        {% for message in messages %}
+        <div class="bg-blue-600 text-white p-4 rounded-lg mb-2">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% if courses %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="space-y-6">
         {% for course in courses %}
-        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-2">{{ course.title }}</h2>
-            <p class="text-gray-300 mb-4">Points: {{ course.points }}</p>
-            <a href="{% url 'app:course' course_id=course.id %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">View Course</a>
+        <div class="bg-gray-800 rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div class="w-1/4 bg-gray-900 flex items-center justify-center p-4">
+                {% if course.badge %}
+                <img src="{{ course.badge }}" alt="{{ course.title }} Badge" class="max-w-full max-h-32 object-contain">
+                {% else %}
+                <div class="text-gray-500 text-sm">No Badge</div>
+                {% endif %}
+            </div>
+            <div class="w-3/4 p-6">
+                <h2 class="text-2xl font-semibold text-white mb-2">{{ course.title }}</h2>
+                <p class="text-gray-300 mb-3">{{ course.short_description }}</p>
+                <div class="grid grid-cols-2 gap-4 mb-4 text-gray-400 text-sm">
+                    <div><span class="font-medium text-gray-200">Points:</span> {{ course.points }}</div>
+                    <div><span class="font-medium text-gray-200">Language:</span> {{ course.language }}</div>
+                    <div><span class="font-medium text-gray-200">Type:</span> {{ course.course_type }}</div>
+                    <div><span class="font-medium text-gray-200">Difficulty:</span> {{ course.difficulty }}</div>
+                    <div><span class="font-medium text-gray-200">Level:</span> {{ course.level }}</div>
+                    <div><span class="font-medium text-gray-200">Duration:</span> {{ course.duration }}</div>
+                    <div><span class="font-medium text-gray-200">Version:</span> {{ course.version }}</div>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for topic in course.topics %}
+                    <span class="bg-blue-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">{{ topic }}</span>
+                    {% empty %}
+                    <span class="text-gray-500 text-xs">No topics</span>
+                    {% endfor %}
+                </div>
+                <div class="flex space-x-4">
+                    <a href="{% url 'app:course' course_id=course.id %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">View Course</a>
+                    <a href="{% url 'app:course_info' course_id=course.id %}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">View Information</a>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="text-gray-300">No courses available.</p>
+    <p class="text-gray-300 text-lg">No courses available.</p>
     {% endif %}
 </div>
 {% endblock %}

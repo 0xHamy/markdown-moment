@@ -14,6 +14,7 @@ urlpatterns = [
     path('academy/courses/', views.courses, name='courses'),
     path('academy/dashboard/', views.dashboard, name='dashboard'),
     path('academy/course/<int:course_id>/', views.course, name='course'),
+    path('academy/course/<int:course_id>/info/', views.course_info, name='course_info'),
     path('academy/section/<int:section_id>/', views.section, name='section'),
     path('academy/exercise/<int:exercise_id>/', views.exercise, name='exercise'),
     path('academy/profile/', views.profile, name='profile'),

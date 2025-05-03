@@ -96,15 +96,15 @@ def upload_page(request):
             overview_b64 = base64.b64encode(overview_content.encode()).decode()
 
             # Check for duplicate course
-            course_yaml_id = structure_data['course']['id']  # e.g., "en_pe_course"
+            course_yaml_id = structure_data['course']['id']
             if Course.objects.filter(yaml_id=course_yaml_id).exists():
                 messages.error(request, f"Course with ID {course_yaml_id} already exists")
                 return render(request, 'upload.html')
 
-            # Handle badge filename (correcting possible typo 'bagde')
+            # Handle badge filename
             badge_key = 'badge' if 'badge' in intro_data else 'bagde'
             badge_filename = os.path.basename(intro_data.get(badge_key, ''))
-            badge_path = f"/Uploads/{course_yaml_id}/media/{badge_filename}" if badge_filename else None
+            badge_path = f"/static/uploads/{course_yaml_id}/media/{badge_filename}" if badge_filename else None
 
             # Create Course
             course = Course.objects.create(
@@ -117,15 +117,15 @@ def upload_page(request):
                 duration=intro_data['duration'],
                 difficulty=intro_data['difficulty'],
                 language=intro_data['language'],
-                course_type=intro_data['type'],  # Updated to course_type
+                course_type=intro_data['type'],
                 level=intro_data['level'],
-                topics=json.dumps(intro_data['topics']),
+                topics=intro_data.get('topics', []),
                 overview=overview_b64
             )
 
             # Move media files
             media_src = os.path.join(course_dir, 'media')
-            media_dest = os.path.join('app', 'static', 'Uploads', course_yaml_id, 'media')
+            media_dest = os.path.join('app', 'static', 'uploads', course_yaml_id, 'media')
             if os.path.exists(media_src):
                 shutil.copytree(media_src, media_dest, dirs_exist_ok=True)
 
@@ -257,10 +257,43 @@ def complete(request, item_type, item_id):
 def courses(request):
     courses = Course.objects.all()
     messages_list = [msg.message for msg in messages.get_messages(request)]
+    courses_data = [
+        {
+            'id': course.id,
+            'title': course.title,
+            'short_description': course.short_description,
+            'points': course.points,
+            'language': course.language,
+            'course_type': course.course_type,
+            'difficulty': course.difficulty,
+            'level': course.level,
+            'duration': course.duration,
+            'version': course.version,
+            'badge': course.badge,
+            'topics': json.loads(course.topics) if isinstance(course.topics, str) else course.topics if isinstance(course.topics, list) else []
+        } for course in courses
+    ]
     return render(request, 'courses.html', {
-        'courses': courses,
+        'courses': courses_data,
         'messages': messages_list
     })
+
+
+@login_required
+@non_admin_required
+def course_info(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    try:
+        overview_bytes = base64.b64decode(course.overview)
+        overview_md = overview_bytes.decode('utf-8')
+        overview_html = markdown.markdown(overview_md, extensions=['extra', 'fenced_code'])
+    except Exception as e:
+        overview_html = '<p>Error rendering course overview.</p>'
+    return render(request, 'course_info.html', {
+        'course': course,
+        'overview_html': overview_html
+    })
+
 
 @login_required
 @non_admin_required

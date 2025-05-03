@@ -1,0 +1,59 @@
+<!-- app/templates/course_info.html -->
+{% extends "base.html" %}
+{% block title %}{{ course.title }} - Information{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Modal-like Card -->
+    <div class="bg-gray-800 rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+        <!-- Header with Close Button -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-white">{{ course.title }}</h1>
+            <a href="{% url 'app:courses' %}" class="text-gray-400 hover:text-gray-200" title="Back to Courses">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </a>
+        </div>
+        <!-- Badge -->
+        <div class="mb-8 flex justify-center">
+            {% if course.badge %}
+            <img src="{{ course.badge }}" alt="{{ course.title }} Badge" class="max-w-xs max-h-48 object-contain rounded-lg">
+            {% else %}
+            <div class="text-gray-500 text-sm">No Badge</div>
+            {% endif %}
+        </div>
+        <!-- Course Intro (from course_intro.yaml) -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-white mb-4">Course Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300 text-sm">
+                <div><span class="font-medium text-gray-200">Title:</span> {{ course.title }}</div>
+                <div><span class="font-medium text-gray-200">Points:</span> {{ course.points }}</div>
+                <div><span class="font-medium text-gray-200">Description:</span> {{ course.short_description }}</div>
+                <div><span class="font-medium text-gray-200">Language:</span> {{ course.language }}</div>
+                <div><span class="font-medium text-gray-200">Type:</span> {{ course.course_type }}</div>
+                <div><span class="font-medium text-gray-200">Difficulty:</span> {{ course.difficulty }}</div>
+                <div><span class="font-medium text-gray-200">Level:</span> {{ course.level }}</div>
+                <div><span class="font-medium text-gray-200">Duration:</span> {{ course.duration }}</div>
+                <div><span class="font-medium text-gray-200">Version:</span> {{ course.version }}</div>
+                <div class="col-span-2">
+                    <span class="font-medium text-gray-200">Topics:</span>
+                    <div class="flex flex-wrap gap-2 mt-1">
+                        {% for topic in course.topics %}
+                        <span class="bg-blue-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">{{ topic }}</span>
+                        {% empty %}
+                        <span class="text-gray-500 text-xs">No topics</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Course Info (from course_info.md) -->
+        <div>
+            <h2 class="text-2xl font-semibold text-white mb-4">Course Overview</h2>
+            <div class="prose prose-invert text-gray-300 leading-relaxed">
+                {{ overview_html|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
