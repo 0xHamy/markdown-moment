@@ -32,6 +32,10 @@
 	- [ ] Modify the page and correct all stylings 
 	- [ ] Remove the x/close icon and functionality 
 	- [ ] ensure the page is responsive 
+- [ ] Viewing a course
+	- [ ] Display all modules in horizontal cards with holo circle (green-checked if module was completed), title, description, view button, progress bar to show how many items were done 
+	- [ ] Display total progress bar, display coints for exercises, sections, modules in this format: 0/1 Exercises 0/20 Sections 0/8 Modules
+	- [ ] Course status: ongoing, not started, completed 
 
 ---
 
