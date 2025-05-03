@@ -25,9 +25,13 @@
 - [ ] When doing a section, the sidebar should only show chapters & sections for that module
 	- [ ] Each module can be done any time and they will have its own progress bar that will show on course review page 
 - [ ] Add dim mode to create an overlay on site for night mode 
-- [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by default show only English courses but add options to show courses in other languages 
+- [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by language
 	- [ ] Create the same course in French
-	- [ ] Ensure it works 
+	- [ ] Ensure language switch works 
+- [ ] Modify `academy/course/1/info/` to show course_id instead of 1
+	- [ ] Modify the page and correct all stylings 
+	- [ ] Remove the x/close icon and functionality 
+	- [ ] ensure the page is responsive 
 
 ---
 
