@@ -36,6 +36,9 @@
 	- [ ] Display all modules in horizontal cards with holo circle (green-checked if module was completed), title, description, view button, progress bar to show how many items were done 
 	- [ ] Display total progress bar, display coints for exercises, sections, modules in this format: 0/1 Exercises 0/20 Sections 0/8 Modules
 	- [ ] Course status: ongoing, not started, completed 
+- [ ] Viewing a module
+	- [ ] Open up the sidebar to the left, display all content with horo circle icon, fill it when a section or exercise or module is completed
+	- [ ] Every module will have an overview page that will be opened first 
 
 ---
 
