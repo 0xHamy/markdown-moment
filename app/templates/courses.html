@@ -2,55 +2,71 @@
 {% extends "base.html" %}
 {% block title %}Courses{% endblock %}
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-white mb-8">Available Courses</h1>
+<div class="py-8">
+    <h1 class="text-3xl font-bold text-white mb-8 px-4">Available Courses</h1>
     {% if messages %}
-    <div class="mb-6">
+    <div class="mb-6 px-4">
         {% for message in messages %}
         <div class="bg-blue-600 text-white p-4 rounded-lg mb-2">{{ message }}</div>
         {% endfor %}
     </div>
     {% endif %}
     {% if courses %}
-    <div class="space-y-6">
+    <div class="space-y-8 px-4 lg:px-8">
         {% for course in courses %}
-        <div class="bg-gray-800 rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div class="w-1/4 bg-gray-900 flex items-center justify-center p-4">
+        <div class="w-full flex flex-col lg:flex-row bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-auto lg:h-96">
+            <div class="flex-none w-full h-72 lg:w-96 lg:h-96 bg-gray-800">
                 {% if course.badge %}
-                <img src="{{ course.badge }}" alt="{{ course.title }} Badge" class="max-w-full max-h-32 object-contain">
+                <img src="{{ course.badge }}" alt="{{ course.title }} Badge" class="w-full h-full lg:w-96 lg:h-96 object-cover rounded-t-xl lg:rounded-t-none lg:rounded-l-xl">
                 {% else %}
-                <div class="text-gray-500 text-sm">No Badge</div>
+                <div class="w-full h-full flex items-center justify-center text-gray-500 text-base bg-gray-800 rounded-t-xl lg:rounded-t-none lg:rounded-l-xl">No Badge</div>
                 {% endif %}
             </div>
-            <div class="w-3/4 p-6">
-                <h2 class="text-2xl font-semibold text-white mb-2">{{ course.title }}</h2>
-                <p class="text-gray-300 mb-3">{{ course.short_description }}</p>
-                <div class="grid grid-cols-2 gap-4 mb-4 text-gray-400 text-sm">
-                    <div><span class="font-medium text-gray-200">Points:</span> {{ course.points }}</div>
-                    <div><span class="font-medium text-gray-200">Language:</span> {{ course.language }}</div>
-                    <div><span class="font-medium text-gray-200">Type:</span> {{ course.course_type }}</div>
-                    <div><span class="font-medium text-gray-200">Difficulty:</span> {{ course.difficulty }}</div>
-                    <div><span class="font-medium text-gray-200">Level:</span> {{ course.level }}</div>
-                    <div><span class="font-medium text-gray-200">Duration:</span> {{ course.duration }}</div>
-                    <div><span class="font-medium text-gray-200">Version:</span> {{ course.version }}</div>
-                </div>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for topic in course.topics %}
-                    <span class="bg-blue-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">{{ topic }}</span>
-                    {% empty %}
-                    <span class="text-gray-500 text-xs">No topics</span>
-                    {% endfor %}
-                </div>
-                <div class="flex space-x-4">
-                    <a href="{% url 'app:course' course_id=course.id %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">View Course</a>
-                    <a href="{% url 'app:course_info' course_id=course.id %}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">View Information</a>
+            <div class="flex-1 p-8 border-t border-gray-700 lg:border-t-0 lg:border-l-0 bg-gray-800 rounded-b-xl lg:rounded-b-none lg:rounded-r-xl flex flex-col overflow-auto">
+                <div class="mb-8">
+                    <a href="{% url 'app:course_info' course_id=course.id %}" target="_blank" class="text-3xl font-semibold text-cyan-400 mb-3 hover:bg-gray-900">{{ course.title }}</a>
+                    <br><br>
+                    <p class="text-gray-300 text-lg mb-6">{{ course.short_description }}</p>
+                    <div class="overflow-x-auto mb-8">
+                        <table class="table-auto w-full text-sm text-gray-400">
+                            <thead>
+                                <tr>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Points</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Language</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Type</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Difficulty</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Level</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Duration</th>
+                                    <th class="font-medium text-gray-200 px-4 py-2 text-left">Version</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-4 py-2">{{ course.points }}</td>
+                                    <td class="px-4 py-2">{{ course.language }}</td>
+                                    <td class="px-4 py-2">{{ course.course_type }}</td>
+                                    <td class="px-4 py-2">{{ course.difficulty }}</td>
+                                    <td class="px-4 py-2">{{ course.level }}</td>
+                                    <td class="px-4 py-2">{{ course.duration }}</td>
+                                    <td class="px-4 py-2">{{ course.version }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        {% for topic in course.topics %}
+                        <span class="bg-blue-600 text-white text-xs font-medium px-2 py-0.5 rounded-full">{{ topic }}</span>
+                        {% empty %}
+                        <span class="text-gray-500 text-xs">No topics</span>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="text-gray-300 text-lg">No courses available.</p>
+    <p class="text-gray-300 text-lg px-4">No courses available.</p>
     {% endif %}
 </div>
 {% endblock %}

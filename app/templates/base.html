@@ -83,7 +83,7 @@
         {% if has_sidebar %}
         {% block sidebar %}{% endblock %}
         {% endif %}
-        <main class="flex-1 p-6 bg-gray-900 transition-all duration-300 w-full {% if has_sidebar %}md:ml-64{% else %}max-w-4xl mx-auto{% endif %}">
+        <main class="flex-1 bg-gray-900 transition-all duration-300 w-full {% if has_sidebar %}md:ml-64 p-6{% else %}p-0{% endif %}">
             <div class="w-full">
                 {% if messages %}
                 <div class="mb-4">
