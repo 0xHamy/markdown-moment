@@ -18,17 +18,8 @@
 ---
 
 # Todo
-- [ ] add strict cookies & auth token that expires quickly after use 
-- [ ] Create dashboard for users to show progress on all courses that you have started, your total points 
 - [ ] Make the navbar responsive; burger icons don't work on small screens 
 	- [ ] remove the sidebar from base.html and put it inside section.html 
-- [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
-- [ ] When doing a section, the sidebar should only show chapters & sections for that module
-	- [ ] Each module can be done any time and they will have its own progress bar that will show on course review page 
-- [ ] Add dim mode to create an overlay on site for night mode 
-- [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by language
-	- [ ] Create the same course in French
-	- [ ] Ensure language switch works 
 - [ ] Modify `academy/course/1/info/` to show course_id instead of 1
 	- [ ] Modify the page and correct all stylings 
 	- [ ] Remove the x/close icon and functionality 
@@ -38,25 +29,27 @@
 	- [ ] Display total progress bar, display coints for exercises, sections, modules in this format: 0/1 Exercises 0/20 Sections 0/8 Modules
 	- [ ] Course status: ongoing, not started, completed 
 - [ ] Viewing a module
-	- [ ] Open up the sidebar to the left, display all content with horo circle icon, fill it when a section or exercise or module is completed
+	- [ ] Clicking view on a module will open the first section of that module, which is usually an overview 
+	- [ ] Open up the sidebar to the left, display all content with hallow circle icon, fill it when a section or exercise or module is completed
 	- [ ] Every module will have an overview page that will be opened first 
+- [ ] Add appropriate messages for when you finish a section, a module or an entire course
+- [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
+- [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
+- [ ] Add dim mode to create an overlay on site for night mode 
+- [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by language
+	- [ ] Create the same course in French
+	- [ ] Ensure language switch works 
 - [ ] Add video support to course; videos can uploaded just like images
 - [ ] Add custom HTML support to markdown too so that you can stylize course_intro.md
+- [ ] Add logs for all actions 
+- [ ] add strict cookies & auth token that expires quickly after use 
+- [ ] Add strict CSP rules & localize everything 
+- [ ] Add a badges sections for the badges you earn when you complete a course 
+- [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md, changelog
+- [ ] When adding OAuth, ensure that admin isn't affected
+
 
 ---
-
-- [ ] Add logs for all actions 
-- [ ] Add strict CSP rules & localize everything 
-- [ ] Add appropriate messages for when you finish courses & stuff
-- [ ] Add a proper changelog, security.md 
-- [ ] Create visual profiles, progress bar for all courses, progress and badges for user
-- [ ] Add a badges sections for the badges you earn when you complete a course 
-- [ ] Create proper security headers, robots.txt & security.txt and SECURITY.md 
-- [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
-- [ ] The container moves to the left while viewing a section, fix that
-- [ ] Add round green check mark for sections/exercises/modules you complete when doing a section/exercise; this same thing should show on course itself  
-- [ ] When you open a section and select code of that section with mouse, the container enlarges, fix this
-- [ ] When adding OAuth, ensure that admin isn't affected
 
 The `course_intro.yaml` will be used to specify all of the following:
 1. Course title
