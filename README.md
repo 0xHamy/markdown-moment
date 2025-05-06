@@ -34,6 +34,9 @@
 	- [ ] Every module will have an overview page that will be opened first 
 - [ ] Add appropriate messages for when you finish a section, a module or an entire course
 - [ ] When you click "Mark as completed", the app must take you to the next section, chapter or if it's course's end, to the badge
+
+---
+
 - [ ] User profile must show total points, total completed modules, sections, exercises; it must also list all completed things like modules, sections, exercises along with points you earn for them and timestamp 
 - [ ] Add dim mode to create an overlay on site for night mode 
 - [ ] Create search & filter for courses so that you can search for courses by name & filter them by one or multiple topics & by language
