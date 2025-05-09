@@ -18,6 +18,7 @@
 ---
 
 # Todo
+- [ ] Ensure that HTML is also supported for course overview because this page is going to have custom HTML (tailwindcss) styles 
 - [ ] Make the navbar responsive; burger icons don't work on small screens 
 	- [ ] remove the sidebar from base.html and put it inside section.html 
 - [ ] Modify `academy/course/1/info/` to show course_id instead of 1
